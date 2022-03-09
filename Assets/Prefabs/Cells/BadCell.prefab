@@ -67,5 +67,13 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5081378764525500465, guid: 1d96458b247ee3b4f842b0f799bf4031, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131776691839583298, guid: 1d96458b247ee3b4f842b0f799bf4031, type: 3}
+      propertyPath: _isGoodCell
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d96458b247ee3b4f842b0f799bf4031, type: 3}

@@ -11,6 +11,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BadTroop2
       objectReference: {fileID: 0}
+    - target: {fileID: 6699951543658769845, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
+      propertyPath: _speed
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699951543658769845, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
+      propertyPath: _isGoodTroop
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6699951543658769846, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
       propertyPath: m_Color.b
       value: 0.5058824

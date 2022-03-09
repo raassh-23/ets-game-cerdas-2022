@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TroopController : MonoBehaviour
 {
@@ -14,13 +15,13 @@ public class TroopController : MonoBehaviour
     private float _speed = 1f;
 
     private Rigidbody2D _rigidbody;
-    private Transform _transform;
     private Vector2 _direction;
+
+    public UnityAction<TroopController> OnTroopDeath = delegate {};
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _transform = GetComponent<Transform>();
     }
 
     private void Update()
@@ -57,7 +58,18 @@ public class TroopController : MonoBehaviour
         if (_direction != Vector2.zero)
         {
             float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
-            _transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+    }
+
+    private void Death() {
+        OnTroopDeath(this);
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (tag == "GoodCell" && other.gameObject.tag == "BadCell"
+            || tag == "BadCell" && other.gameObject.tag == "GoodCell") {
+            Death();
         }
     }
 }
