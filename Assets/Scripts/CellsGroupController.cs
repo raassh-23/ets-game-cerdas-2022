@@ -43,13 +43,15 @@ public class CellsGroupController : MonoBehaviour
         GetAllChildCells();
 
         // placeholder just to test spawning
-        InvokeRepeating("SpawnTroopRandomly", 2f, 2f);
+        // InvokeRepeating("SpawnTroopRandomly", 2f, 2f);
+        SpawnTroopRandomly();
     }
 
     private void GetAllChildCells() {
         _cells = new List<CellController>();
         foreach (Transform child in transform) {
             child.tag = tag;
+            child.gameObject.layer = LayerMask.NameToLayer("Cell");
 
             CellController cell = child.GetComponent<CellController>();
             if (cell != null) {
@@ -87,6 +89,8 @@ public class CellsGroupController : MonoBehaviour
             GameObject newTroop = Instantiate(_troopsPrefab[troopIndex]);
             newTroop.name = newTroop.name.Replace("(Clone)", "");
             newTroop.tag = tag;
+            newTroop.layer = LayerMask.NameToLayer("Troop");
+
             troop = newTroop.GetComponent<TroopController>();
             troop.OnTroopDeath += ReturnToPool;
         } else {
