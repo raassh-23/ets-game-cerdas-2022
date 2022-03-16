@@ -14,7 +14,6 @@ public class CellsGroupController : MonoBehaviour
     [SerializeField]
     private float _addPoints = 5f;
 
-    [SerializeField]
     private List<CellController> _cells;
 
     [SerializeField]
@@ -22,12 +21,33 @@ public class CellsGroupController : MonoBehaviour
 
     private Dictionary<string, List<TroopController>> _troopsPool;
 
+    [SerializeField]
+    private int _spawnCellRandomly = 3;
+
+    [SerializeField]
+    private GameObject _cellPrefab;
+
+    private BoxCollider2D _boxCollider;
+    private Bounds _cellBounds;
+
     private void Start() {
+        _boxCollider = GetComponent<BoxCollider2D>();
+        _cellBounds = _cellPrefab.GetComponent<SpriteRenderer>().bounds;
+
         _troopsPool = new Dictionary<string, List<TroopController>>();
         foreach (GameObject troopPrefab in _troopsPrefab) {
             _troopsPool.Add(troopPrefab.name, new List<TroopController>());
         }
 
+        SpawnCellRandomly();
+        GetAllChildCells();
+
+        // placeholder just to test spawning
+        InvokeRepeating("SpawnTroopRandomly", 2f, 2f);
+    }
+
+    private void GetAllChildCells() {
+        _cells = new List<CellController>();
         foreach (Transform child in transform) {
             child.tag = tag;
 
@@ -36,9 +56,27 @@ public class CellsGroupController : MonoBehaviour
                 _cells.Add(cell);
             }
         }
+    }
 
-        // placeholder just to test spawning
-        InvokeRepeating("SpawnTroopRandomly", 2f, 2f);
+    private void SpawnCellRandomly() {
+        Bounds bounds = _boxCollider.bounds;
+
+        for (int i = 0; i < _spawnCellRandomly; i++)
+        {
+            Vector3 randomPosition;
+
+            do
+            {
+                randomPosition = new Vector3(
+                    Random.Range(bounds.min.x, bounds.max.x), 
+                    Random.Range(bounds.min.y, bounds.max.y), 
+                    0
+                ); 
+            } while (Physics2D.OverlapBox(randomPosition, Vector2.Scale(_cellBounds.size, _cellPrefab.transform.localScale), 0) != null);
+
+            
+            Instantiate(_cellPrefab, randomPosition, Quaternion.identity, transform);
+        }
     }
 
     private TroopController GetFromPool(int troopIndex) {

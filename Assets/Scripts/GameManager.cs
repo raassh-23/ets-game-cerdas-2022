@@ -42,12 +42,10 @@ public class GameManager : MonoBehaviour
     public void addToSpawnedTroops(TroopController troop)
     {
         _spawnedTroops[troop.gameObject.tag].Add(troop);
-        Debug.Log(_spawnedTroops[troop.gameObject.tag].Count);
     }
 
     public void removeFromSpawnedTroops(TroopController troop)
     {
         _spawnedTroops[troop.gameObject.tag].Remove(troop);
-        Debug.Log(_spawnedTroops[troop.gameObject.tag].Count);
     }
 }
