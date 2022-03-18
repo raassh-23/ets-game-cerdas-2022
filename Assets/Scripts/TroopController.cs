@@ -96,8 +96,8 @@ public class TroopController : Agent, IAttackable
         if (!_canAttack)
             yield break;
         
-        Debug.Log(gameObject.name + " attacking");
-        IAttackable attackTarget = NearestObject(_attackTargets).GetComponent<IAttackable>();
+        GameObject target = NearestObject(_attackTargets);
+        IAttackable attackTarget = target.GetComponent<IAttackable>();
 
         if (_attackTargets == null) {
             yield break;
@@ -106,7 +106,7 @@ public class TroopController : Agent, IAttackable
         attackTarget.TakeDamage(_damage);
         _canAttack = false;  
 
-        Debug.Log(gameObject.name + " has attacked");
+        Debug.Log(gameObject.name + " has attacked " + target.name);
 
         // placeholder for animation
         Color color = _spriteRenderer.color;

@@ -10,22 +10,19 @@ public class EnvironmentManager : MonoBehaviour
     [SerializeField]
     private CellsGroupController[] _cellsGroups = new CellsGroupController[2];
 
-    private List<CellController>[] _cells;
-    private List<TroopController>[] _troops;
-
     [SerializeField]
     private int TroopSpawnCount = 9;
 
     [Tooltip("Max Environment Steps")] public int MaxEnvironmentSteps = 25000;
     private int _resetTimer;
 
+    
+
     private SimpleMultiAgentGroup _group1;
     private SimpleMultiAgentGroup _group2;
 
     void Start()
     {
-        _cells = new List<CellController>[_cellsGroups.Length];
-        _troops = new List<TroopController>[_cellsGroups.Length];
         _group1 = new SimpleMultiAgentGroup();
         _group2 = new SimpleMultiAgentGroup();
 
@@ -58,12 +55,17 @@ public class EnvironmentManager : MonoBehaviour
 
             cellsGroup.RespawnCell();
             cellsGroup.RespawnTroops(TroopSpawnCount);
+
+            foreach (var cell in cellsGroup.Cells)
+            {
+                cell.OnCellDestroyed += CellDestroyed;
+            }
         }
     }
 
     public void RegisterAgent()
     {
-        foreach (var troop in _troops[0])
+        foreach (var troop in _cellsGroups[0].Troops)
         {
             if (troop != null) {
                 _group1.RegisterAgent(troop);
@@ -73,7 +75,7 @@ public class EnvironmentManager : MonoBehaviour
             
         }
 
-        foreach (var troop in _troops[1])
+        foreach (var troop in _cellsGroups[1].Troops)
         {
             if (troop != null)
                 _group2.RegisterAgent(troop);
@@ -91,6 +93,18 @@ public class EnvironmentManager : MonoBehaviour
         _group2.UnregisterAgent(troop);
     }
 
+    private void CellDestroyed(CellController cell) {
+        if (cell.gameObject.CompareTag("GoodTroop"))
+        {
+            _group1.AddGroupReward(-0.3f);
+            _group2.AddGroupReward(0.3f);
+        }
+        else
+        {
+            _group1.AddGroupReward(0.3f);
+            _group2.AddGroupReward(-0.3f);
+        }
+    }
     private void CheckCell()
     {
         if (_cellsGroups[0].Cells.Count == 0)
