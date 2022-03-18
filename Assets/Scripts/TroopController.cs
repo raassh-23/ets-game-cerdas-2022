@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 using UnityEngine.Events;
+using Unity.MLAgents;
+using Unity.MLAgents.Sensors;
+using Unity.MLAgents.Actuators;
 
-public class TroopController : MonoBehaviour, IAttackable
+public class TroopController : Agent, IAttackable
 {
     [SerializeField]
     private float _damage = 3f;
 
     [SerializeField]
-    private float _health = 10f;
+    private float _initialHealth = 10f;
+
+    public float Health { get; private set; }
 
     [SerializeField]
     private float _speed = 1f;
@@ -27,42 +31,49 @@ public class TroopController : MonoBehaviour, IAttackable
 
     private bool _canAttack = false;
 
-    private SpriteRenderer _spriteRenderer;
+    private SpriteRenderer _spriteRenderer; 
+
+    private EnvironmentManager environmentManager;
+
+    private float _existentialReward;
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _attackTargets = new List<GameObject>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        Health = _initialHealth;
+        environmentManager = GetComponentInParent<EnvironmentManager>();
+        _existentialReward = 1f / environmentManager.MaxEnvironmentSteps;
     }
 
-    private void Update()
-    {
-        // get mouse position when holding lmb and change direction to mouse position
-        // just placeholder to test movement
-        if (Input.GetMouseButton(0))
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 curPos = transform.position;
+    // private void Update()
+    // {
+    //     // get mouse position when holding lmb and change direction to mouse position
+    //     // just placeholder to test movement
+    //     if (Input.GetMouseButton(0))
+    //     {
+    //         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //         Vector2 curPos = transform.position;
 
-            if (Vector2.Distance(mousePos, curPos) > 0.1f)
-            {
-                _direction = (mousePos - curPos).normalized;
-            }
-            else
-            {
-                _direction = Vector2.zero;
-            }
-        } else {
-            _direction = Vector2.zero;
-        }
+    //         if (Vector2.Distance(mousePos, curPos) > 0.1f)
+    //         {
+    //             _direction = (mousePos - curPos).normalized;
+    //         }
+    //         else
+    //         {
+    //             _direction = Vector2.zero;
+    //         }
+    //     } else {
+    //         _direction = Vector2.zero;
+    //     }
 
-        // placeholder to attack 
-        if (_canAttack)
-        {
-            StartCoroutine(Attack());
-        }
-    }
+    //     // placeholder to attack 
+    //     if (_canAttack)
+    //     {
+    //         StartCoroutine(Attack());
+    //     }
+    // }
 
     private void FixedUpdate()
     {
@@ -87,9 +98,16 @@ public class TroopController : MonoBehaviour, IAttackable
         
         Debug.Log(gameObject.name + " attacking");
         IAttackable attackTarget = NearestObject(_attackTargets).GetComponent<IAttackable>();
+
+        if (_attackTargets == null) {
+            yield break;
+        }
+
         attackTarget.TakeDamage(_damage);
-        _canAttack = false;
-        
+        _canAttack = false;  
+
+        Debug.Log(gameObject.name + " has attacked");
+
         // placeholder for animation
         Color color = _spriteRenderer.color;
         _spriteRenderer.color = Color.gray;
@@ -121,9 +139,9 @@ public class TroopController : MonoBehaviour, IAttackable
 
     public void TakeDamage(float damage)
     {
-        _health -= damage;
+        Health -= damage;
 
-        if (_health <= 0)
+        if (Health <= 0)
         {
             OnTroopDeath(this);
         }
@@ -138,18 +156,80 @@ public class TroopController : MonoBehaviour, IAttackable
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (tag == "GoodCell" && other.gameObject.tag == "BadCell"
-            || tag == "BadCell" && other.gameObject.tag == "GoodCell") {
+        if (tag == "GoodTroop" && other.gameObject.tag == "BadTroop"
+            || tag == "BadTroop" && other.gameObject.tag == "GoodTroop") {
             _attackTargets.Add(other.gameObject);
             CheckCanAttack();
         }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
-        if (tag == "GoodCell" && other.gameObject.tag == "BadCell"
-            || tag == "BadCell" && other.gameObject.tag == "GoodCell") {
+        if (tag == "GoodTroop" && other.gameObject.tag == "BadTroop"
+            || tag == "BadTroop" && other.gameObject.tag == "GoodTroop") {
             _attackTargets.Remove(other.gameObject);
             CheckCanAttack();
+        }
+    }
+
+    // public override void OnEpisodeBegin()
+    // {
+    //     environmentManager.InitScene();
+    // }
+
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        sensor.AddObservation(Health);
+        sensor.AddObservation(_damage);
+        sensor.AddObservation(_attackCooldown);
+        sensor.AddObservation(_speed);
+        sensor.AddObservation(_canAttack);
+    }
+
+    public override void OnActionReceived(ActionBuffers actions)
+    {
+        AddReward(_existentialReward);
+
+        float moveX = actions.ContinuousActions[0];
+        float moveY = actions.ContinuousActions[1];
+        _direction = new Vector2(moveX, moveY).normalized;
+
+        switch (actions.DiscreteActions[0])
+        {
+            case 1:
+                StartCoroutine(Attack());
+                break;
+            default:
+                break;
+        }
+    }
+
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var conActions = actionsOut.ContinuousActions;
+        if (Input.GetMouseButton(0))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 curPos = transform.position;
+
+            if (Vector2.Distance(mousePos, curPos) > 0.1f)
+            {
+                Vector2 dir = (mousePos - curPos).normalized;
+                conActions[0] = dir.x;
+                conActions[1] = dir.y;
+            }
+            else
+            {
+                conActions[0] = 0;
+                conActions[1] = 0;
+            }
+        } else {
+            conActions[0] = 0;
+            conActions[1] = 0;
+        }
+
+        if (_canAttack)
+        {
+            actionsOut.DiscreteActions.Array[0] = 1;
         }
     }
 }

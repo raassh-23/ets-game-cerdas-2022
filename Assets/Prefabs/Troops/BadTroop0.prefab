@@ -7,9 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 909818468856578721, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
+      propertyPath: TeamId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6680805863533082971, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
       propertyPath: m_Name
       value: BadTroop0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680805863533082971, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
+      propertyPath: m_TagString
+      value: BadTroop
       objectReference: {fileID: 0}
     - target: {fileID: 6680805863533082972, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
       propertyPath: _speed
@@ -74,6 +82,10 @@ PrefabInstance:
     - target: {fileID: 6680805863533082975, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802887065935901078, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
+      propertyPath: m_SensorName
+      value: BadRayPerceptionSensor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
