@@ -64,10 +64,10 @@ public class CellsGroupController : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            if (gameObject.CompareTag("GoodCell"))
-                child.tag = "GoodTroop";
+            if (gameObject.CompareTag("GoodSpawn"))
+                child.tag = "GoodCell";
             else
-                child.tag = "BadTroop";
+                child.tag = "BadCell";
 
 
             child.gameObject.layer = LayerMask.NameToLayer("Cell");
@@ -119,7 +119,7 @@ public class CellsGroupController : MonoBehaviour
             newTroop.name = newTroop.name.Replace("(Clone)", "");
             newTroop.layer = LayerMask.NameToLayer("Troop");
 
-            if (gameObject.CompareTag("GoodCell"))
+            if (gameObject.CompareTag("GoodSpawn"))
                 newTroop.tag = "GoodTroop";
             else
                 newTroop.tag = "BadTroop";

@@ -8,6 +8,9 @@ TagManager:
   - BadCell
   - GoodTroop
   - BadTroop
+  - wall
+  - GoodSpawn
+  - BadSpawn
   layers:
   - Default
   - TransparentFX

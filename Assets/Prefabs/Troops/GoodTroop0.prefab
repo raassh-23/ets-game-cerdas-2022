@@ -46,7 +46,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.49994653
+  m_Radius: 0.4
 --- !u!1 &6680805863533082971
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,10 +250,13 @@ MonoBehaviour:
   m_DetectableTags:
   - GoodTroop
   - BadTroop
+  - GoodCell
+  - BadCell
+  - wall
   m_RaysPerDirection: 4
   m_MaxRayDegrees: 180
-  m_SphereCastRadius: 0.5
-  m_RayLength: 5
+  m_SphereCastRadius: 0.3
+  m_RayLength: 4
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291

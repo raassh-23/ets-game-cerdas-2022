@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
 using UnityEngine;
 using UnityEngine.Events;
-using Unity.MLAgents;
-using Unity.MLAgents.Sensors;
-using Unity.MLAgents.Actuators;
 
 public class TroopController : Agent, IAttackable
 {
@@ -25,13 +25,13 @@ public class TroopController : Agent, IAttackable
     private Rigidbody2D _rigidbody;
     private Vector2 _direction;
 
-    public UnityAction<TroopController> OnTroopDeath = delegate {};
+    public UnityAction<TroopController> OnTroopDeath = delegate { };
 
     private List<GameObject> _attackTargets { get; set; }
 
     private bool _canAttack = false;
 
-    private SpriteRenderer _spriteRenderer; 
+    private SpriteRenderer _spriteRenderer;
 
     private EnvironmentManager environmentManager;
 
@@ -63,7 +63,7 @@ public class TroopController : Agent, IAttackable
         {
             float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
             Quaternion target = Quaternion.AngleAxis(angle, Vector3.forward);
-            transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime * 10f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime * 15f);
         }
     }
 
@@ -78,7 +78,7 @@ public class TroopController : Agent, IAttackable
             IAttackable attackTarget = target.GetComponent<IAttackable>();
 
             attackTarget.TakeDamage(_damage);
-            _canAttack = false;  
+            _canAttack = false;
 
             Debug.Log(gameObject.name + " has attacked " + target.name);
 
@@ -97,7 +97,8 @@ public class TroopController : Agent, IAttackable
         _spriteRenderer.color = _initialColor;
     }
 
-    private GameObject NearestObject(List<GameObject> objects) {
+    private GameObject NearestObject(List<GameObject> objects)
+    {
         GameObject target = null;
 
         float minDistance = Mathf.Infinity;
@@ -126,34 +127,64 @@ public class TroopController : Agent, IAttackable
         }
     }
 
-    private void CheckCanAttack() {
-        if (_attackTargets.Count == 0) {
+    private void CheckCanAttack()
+    {
+        if (_attackTargets.Count == 0)
+        {
             _canAttack = false;
-        } else {
+        }
+        else
+        {
             _canAttack = true;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (tag == "GoodTroop" && other.gameObject.tag == "BadTroop"
-            || tag == "BadTroop" && other.gameObject.tag == "GoodTroop") {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if ((gameObject.CompareTag("GoodTroop")
+                && (other.gameObject.CompareTag("BadCell")
+                || other.gameObject.CompareTag("BadTroop")))
+            || (gameObject.CompareTag("BadTroop")
+                && (other.gameObject.CompareTag("GoodCell")
+                || other.gameObject.CompareTag("GoodTroop"))))
+        {
             _attackTargets.Add(other.gameObject);
             CheckCanAttack();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other) {
-        if (tag == "GoodTroop" && other.gameObject.tag == "BadTroop"
-            || tag == "BadTroop" && other.gameObject.tag == "GoodTroop") {
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if ((gameObject.CompareTag("GoodTroop")
+                && (other.gameObject.CompareTag("BadCell")
+                || other.gameObject.CompareTag("BadTroop")))
+            || (gameObject.CompareTag("BadTroop")
+                && (other.gameObject.CompareTag("GoodCell")
+                || other.gameObject.CompareTag("GoodTroop"))))
+        {
             _attackTargets.Remove(other.gameObject);
             CheckCanAttack();
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other) {
-        if (tag == "GoodTroop" && other.gameObject.tag == "BadCell"
-            || tag == "BadTroop" && other.gameObject.tag == "GoodCell") {
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if ((gameObject.CompareTag("GoodTroop")
+                && (other.gameObject.CompareTag("BadCell")
+                || other.gameObject.CompareTag("BadTroop")))
+            || (gameObject.CompareTag("BadTroop")
+                && (other.gameObject.CompareTag("GoodCell")
+                || other.gameObject.CompareTag("GoodTroop"))))
+        {
             AddReward(_existentialReward);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("wall"))
+        {
+            AddReward(-_existentialReward);
         }
     }
 
@@ -168,8 +199,6 @@ public class TroopController : Agent, IAttackable
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        AddReward(_existentialReward);
-
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];
         _direction = new Vector2(moveX, moveY).normalized;
@@ -182,6 +211,8 @@ public class TroopController : Agent, IAttackable
             default:
                 break;
         }
+
+        AddReward(-_existentialReward);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -203,7 +234,9 @@ public class TroopController : Agent, IAttackable
                 conActions[0] = 0;
                 conActions[1] = 0;
             }
-        } else {
+        }
+        else
+        {
             conActions[0] = 0;
             conActions[1] = 0;
         }

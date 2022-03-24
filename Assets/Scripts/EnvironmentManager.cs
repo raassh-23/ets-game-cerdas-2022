@@ -74,12 +74,14 @@ public class EnvironmentManager : MonoBehaviour
 
     public void RegisterAgent()
     {
+        Debug.Log("register agent");
+
         foreach (var troop in _cellsGroups[0].Troops)
         {
             if (troop != null)
             {
                 _group1.RegisterAgent(troop);
-                troop.OnTroopDeath += UnregisterGroup1;
+                // troop.OnTroopDeath += UnregisterGroup1;
             }
         }
 
@@ -87,7 +89,27 @@ public class EnvironmentManager : MonoBehaviour
         {
             if (troop != null) {
                 _group2.RegisterAgent(troop);
-                troop.OnTroopDeath += UnregisterGroup2;
+                // troop.OnTroopDeath += UnregisterGroup2;
+            }
+        }
+    }
+
+    public void UnregisterAgent()
+    {
+        Debug.Log("unregister agent");
+
+        foreach (var troop in _cellsGroups[0].Troops)
+        {
+            if (troop != null)
+            {
+                _group1.UnregisterAgent(troop);
+            }
+        }
+
+        foreach (var troop in _cellsGroups[1].Troops)
+        {
+            if (troop != null) {
+                _group2.UnregisterAgent(troop);
             }
         }
     }
@@ -104,7 +126,7 @@ public class EnvironmentManager : MonoBehaviour
 
     private void CellDestroyed(CellController cell)
     {
-        if (cell.gameObject.CompareTag("GoodTroop"))
+        if (cell.gameObject.CompareTag("GoodCell"))
         {
             _group1.AddGroupReward(-_cellDestroyedReward);
             _group2.AddGroupReward(_cellDestroyedReward);
@@ -136,26 +158,31 @@ public class EnvironmentManager : MonoBehaviour
 
     private void CheckCell()
     {
-        if (_cellsGroups[0].Cells.Count == 0)
+        if (_cellsGroups[0].Cells.Count == 0 || _cellsGroups[1].Cells.Count == 0)
         {
-            Debug.Log("GoodCell all destroyed");
-            _group1.AddGroupReward(-1f);
-            _group2.AddGroupReward(1f);
-            EndEpisode();
-
-        }
-
-        if (_cellsGroups[1].Cells.Count == 0)
-        {
-            Debug.Log("BadCell all destroyed");
-            _group1.AddGroupReward(1f);
-            _group2.AddGroupReward(-1f);
+            Debug.Log("GoodCell or BadCell all destroyed");
             EndEpisode();
         }
     }
 
     private void EndEpisode()
     {
+        if (_cellsGroups[0].Cells.Count > _cellsGroups[1].Cells.Count) {
+            _group1.AddGroupReward(1f);
+            _group2.AddGroupReward(-1f);
+            Debug.Log("Good wins");
+        } else if (_cellsGroups[1].Cells.Count > _cellsGroups[0].Cells.Count) {
+            _group1.AddGroupReward(-1f);
+            _group2.AddGroupReward(1f);
+            Debug.Log("Bad wins");
+        } else {
+            _group1.AddGroupReward(0f);
+            _group2.AddGroupReward(0f);
+            Debug.Log("Draws");
+        }
+
+        UnregisterAgent();
+
         _group1.GroupEpisodeInterrupted();
         _group2.GroupEpisodeInterrupted();
         InitScene();
