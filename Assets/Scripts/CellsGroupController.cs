@@ -155,6 +155,8 @@ public class CellsGroupController : MonoBehaviour
         {
             troop.transform.parent = _environmentManager.transform;
         }
+
+        troop.InitTroop();
     }
 
     public void SpawnTroopRandomly()

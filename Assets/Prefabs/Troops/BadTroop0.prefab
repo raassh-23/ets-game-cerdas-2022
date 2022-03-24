@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 256337264915111833, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
+      propertyPath: m_TagString
+      value: BadTroop
+      objectReference: {fileID: 0}
     - target: {fileID: 909818468856578721, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
       propertyPath: TeamId
       value: 1
