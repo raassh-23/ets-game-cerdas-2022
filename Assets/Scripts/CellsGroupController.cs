@@ -172,16 +172,19 @@ public class CellsGroupController : MonoBehaviour
     public void RespawnCell()
     {
         while (Cells.Count > 0) {
-            // For some reason, GetAllChildCells() after this still adds destroyed cell
-            // so we need to check for null
             if (Cells[0] != null) 
-                Destroy(Cells[0].gameObject);
+                DestroyImmediate(Cells[0].gameObject);
             
             Cells.RemoveAt(0);
         }
 
+        Debug.Log("Respawning cell " + gameObject.name);
+        Debug.Log("Before Cells count: " + Cells.Count);
+
         SpawnCellRandomly();
         GetAllChildCells();
+
+        Debug.Log("After Cells count: " + Cells.Count);
     }
 
     public void RespawnTroops(int count)

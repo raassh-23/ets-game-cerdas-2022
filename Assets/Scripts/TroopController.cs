@@ -48,6 +48,8 @@ public class TroopController : Agent, IAttackable
     private Quaternion _initialHealthBarRotation;
     private Vector3 _initialHealthBarLocalPosition;
 
+    private bool _isInEnemyArea = false;
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -58,18 +60,21 @@ public class TroopController : Agent, IAttackable
         _initialColor = _spriteRenderer.color;
     }
 
-    public void InitTroop() {    
+    public void InitTroop()
+    {
         environmentManager = GetComponentInParent<EnvironmentManager>();
         if (environmentManager != null)
         {
             _existentialReward = 1f / environmentManager.MaxEnvironmentSteps;
         }
+        else
         {
             Debug.Log("EnvironmentManager is null");
         }
 
         Health = _initialHealth;
         _canAttack = false;
+        _isInEnemyArea = false;
         _spriteRenderer.color = _initialColor;
         _healthFill.localScale = new Vector3(1f, 1f, 1f);
         _healthFill.localPosition = new Vector3(0f, 0f, 0f);
@@ -81,7 +86,8 @@ public class TroopController : Agent, IAttackable
         MoveTroop();
     }
 
-    private void LateUpdate() {
+    private void LateUpdate()
+    {
         _healthBar.rotation = _initialHealthBarRotation;
         _healthBar.position = transform.position + _initialHealthBarLocalPosition;
     }
@@ -110,6 +116,7 @@ public class TroopController : Agent, IAttackable
 
             attackTarget.TakeDamage(_damage);
             _canAttack = false;
+            AddReward(_existentialReward);
 
             Debug.Log(gameObject.name + " has attacked " + target.name);
 
@@ -154,7 +161,7 @@ public class TroopController : Agent, IAttackable
 
         float healthPercent = Mathf.Clamp01(Health / _initialHealth);
         _healthFill.localScale = new Vector3(healthPercent, 1f, 1f);
-        _healthFill.localPosition = new Vector3((1-healthPercent) * -0.3f, 0f, 0f);
+        _healthFill.localPosition = new Vector3((1 - healthPercent) * -0.3f, 0f, 0f);
 
         if (Health <= 0)
         {
@@ -186,6 +193,14 @@ public class TroopController : Agent, IAttackable
             _attackTargets.Add(other.gameObject);
             CheckCanAttack();
         }
+
+        if ((gameObject.CompareTag("GoodTroop")
+                && other.gameObject.CompareTag("BadSpawn"))
+            || (gameObject.CompareTag("BadTroop")
+                && other.gameObject.CompareTag("GoodSpawn")))
+        {
+            _isInEnemyArea = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -200,18 +215,13 @@ public class TroopController : Agent, IAttackable
             _attackTargets.Remove(other.gameObject);
             CheckCanAttack();
         }
-    }
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
         if ((gameObject.CompareTag("GoodTroop")
-                && (other.gameObject.CompareTag("BadCell")
-                || other.gameObject.CompareTag("BadTroop")))
+                && other.gameObject.CompareTag("BadSpawn"))
             || (gameObject.CompareTag("BadTroop")
-                && (other.gameObject.CompareTag("GoodCell")
-                || other.gameObject.CompareTag("GoodTroop"))))
+                && other.gameObject.CompareTag("GoodSpawn")))
         {
-            AddReward(_existentialReward);
+            _isInEnemyArea = false;
         }
     }
 
@@ -247,7 +257,14 @@ public class TroopController : Agent, IAttackable
                 break;
         }
 
-        AddReward(-_existentialReward);
+        if (_isInEnemyArea)
+        {
+            AddReward(_existentialReward);
+        }
+        else
+        {
+            AddReward(-_existentialReward);
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)

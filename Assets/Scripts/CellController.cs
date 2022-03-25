@@ -26,7 +26,7 @@ public class CellController : MonoBehaviour, IAttackable
 
         float healthPercent = Mathf.Clamp01(Health / _initialHealth);
         _healthFill.localScale = new Vector3(healthPercent, 1f, 1f);
-        _healthFill.localPosition = new Vector3((1-healthPercent) * -0.3f, 0f, 0f);
+        _healthFill.localPosition = new Vector3((1-healthPercent) * -0.306f, 0f, 0f);
 
         if (Health <= 0)
         {

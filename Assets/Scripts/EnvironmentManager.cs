@@ -47,7 +47,7 @@ public class EnvironmentManager : MonoBehaviour
         RespawnObjects();
         RegisterAgent();
         _cellDestroyedReward = 1f / _cellsGroups[0].Cells.Count;
-        _troopDestroyedReward = 0.2f / _cellsGroups[0].Troops.Count;
+        _troopDestroyedReward = 0.4f / _cellsGroups[0].Troops.Count;
         Debug.Log("InitScene");
     }
 
@@ -131,12 +131,15 @@ public class EnvironmentManager : MonoBehaviour
             _group1.AddGroupReward(-_cellDestroyedReward);
             _group2.AddGroupReward(_cellDestroyedReward);
             Debug.Log("GoodCell Destroyed");
+            Debug.Log(_cellsGroups[0].Cells.Count);
         }
         else
         {
             _group1.AddGroupReward(_cellDestroyedReward);
             _group2.AddGroupReward(-_cellDestroyedReward);
             Debug.Log("BadCell Destroyed");
+            Debug.Log(_cellsGroups[1].Cells.Count);
+
         }
     }
 

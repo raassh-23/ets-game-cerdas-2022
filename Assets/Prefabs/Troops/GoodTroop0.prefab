@@ -240,8 +240,6 @@ MonoBehaviour:
   Health: 0
   _speed: 1
   _attackCooldown: 2
-  _rigidbody: {fileID: 6680805863533082973}
-  _spriteRenderer: {fileID: 6680805863533082975}
   _healthBar: {fileID: 740635800800904038}
   _healthFill: {fileID: 3793704605869474380}
 --- !u!50 &6680805863533082973
