@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -49,9 +50,9 @@ public class TroopController : Agent, IAttackable
     private Vector3 _initialHealthBarLocalPosition;
 
     private bool _isGoodTroop = false;
-
     private bool _isInEnemyArea = false;
-    private bool _isCollidingWall = false;
+    private bool _isNearWall = false;
+    private bool _isNearOwnCell = false;
 
     void Awake()
     {
@@ -78,7 +79,8 @@ public class TroopController : Agent, IAttackable
         Health = _initialHealth;
         _canAttack = false;
         _isInEnemyArea = false;
-        _isCollidingWall = false;
+        _isNearWall = false;
+        _isNearOwnCell = false;
         
         _spriteRenderer.color = _initialColor;
         _healthFill.localScale = new Vector3(1f, 1f, 1f);
@@ -207,10 +209,21 @@ public class TroopController : Agent, IAttackable
             CheckCanAttack();
         }
 
+        if ((_isGoodTroop && other.gameObject.CompareTag("GoodCell"))
+            || (!_isGoodTroop && other.gameObject.CompareTag("BadCell")))
+        {
+            _isNearOwnCell = true;
+        }
+
         if ((_isGoodTroop && other.gameObject.CompareTag("BadSpawn"))
             || (!_isGoodTroop && other.gameObject.CompareTag("GoodSpawn")))
         {
             _isInEnemyArea = true;
+        }
+
+        if (other.gameObject.CompareTag("wall"))
+        {
+            _isNearWall = true;
         }
     }
 
@@ -225,26 +238,37 @@ public class TroopController : Agent, IAttackable
             CheckCanAttack();
         }
 
+        if ((_isGoodTroop && other.gameObject.CompareTag("GoodCell"))
+            || (!_isGoodTroop && other.gameObject.CompareTag("BadCell")))
+        {
+            _isNearOwnCell = false;
+        }
+
         if ((_isGoodTroop && other.gameObject.CompareTag("BadSpawn"))
             || (!_isGoodTroop && other.gameObject.CompareTag("GoodSpawn")))
         {
             _isInEnemyArea = false;
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.CompareTag("wall"))
         {
-            _isCollidingWall = true;
+            _isNearWall = false;
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other) {
-        if (other.gameObject.CompareTag("wall"))
-        {
-            _isCollidingWall = false;
-        }
-    }
+    // private void OnCollisionEnter2D(Collision2D other) {
+    //     if (other.gameObject.CompareTag("wall"))
+    //     {
+    //         _isCollidingWall = true;
+    //     }
+    // }
+
+    // private void OnCollisionExit2D(Collision2D other) {
+    //     if (other.gameObject.CompareTag("wall"))
+    //     {
+    //         _isCollidingWall = false;
+    //     }
+    // }
 
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -252,7 +276,7 @@ public class TroopController : Agent, IAttackable
         sensor.AddObservation(_damage);
         sensor.AddObservation(_attackCooldown);
         sensor.AddObservation(_speed);
-        sensor.AddObservation(_canAttack);
+        sensor.AddObservation(_attackTargets.Count);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -272,7 +296,7 @@ public class TroopController : Agent, IAttackable
 
         if (_isInEnemyArea)
         {
-            AddReward(_existentialReward);
+            AddReward(3*_existentialReward);
             // Debug.Log(gameObject.name + " has entered enemy area");
         }
         else
@@ -280,10 +304,16 @@ public class TroopController : Agent, IAttackable
             AddReward(-_existentialReward);
         }
 
-        if (_isCollidingWall)
+        if (_isNearWall)
         {
             AddReward(-_existentialReward);
             // Debug.Log(gameObject.name + " is near wall");
+        }
+
+        if (_isNearOwnCell)
+        {
+            AddReward(-_existentialReward);
+            Debug.Log(gameObject.name + " is near own cell");
         }
 
         foreach (var attackable in _attackTargets)
@@ -291,12 +321,12 @@ public class TroopController : Agent, IAttackable
             if (attackable.CompareTag("GoodCell")
                 || attackable.CompareTag("BadCell"))
             {
-                AddReward(5*_existentialReward);
+                AddReward(10*_existentialReward);
                 // Debug.Log(gameObject.name + " is near enemy cell");
             } 
             else if (attackable.CompareTag("GoodTroop")
                     || attackable.CompareTag("BadTroop")) {
-                AddReward(2*_existentialReward);
+                AddReward(5*_existentialReward);
                 // Debug.Log(gameObject.name + " is near enemy troop");
             }
         }

@@ -46,8 +46,8 @@ public class EnvironmentManager : MonoBehaviour
         _resetTimer = 0;
         RespawnObjects();
         RegisterAgent();
-        _cellDestroyedReward = 1f / _cellsGroups[0].Cells.Count;
-        _troopDestroyedReward = 0.4f / _cellsGroups[0].Troops.Count;
+        _cellDestroyedReward = 1.5f / _cellsGroups[0].Cells.Count;
+        _troopDestroyedReward = 0.5f / _cellsGroups[0].Troops.Count;
         Debug.Log("InitScene");
     }
 
