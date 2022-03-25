@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2058430307298981261, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
       propertyPath: m_SensorName
-      value: BadRayPerceptionSensor
+      value: RayPerceptionSensor
       objectReference: {fileID: 0}
     - target: {fileID: 4183243555570269504, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
       propertyPath: m_Name

@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67c7e722ba14acd9153bb4488bff6e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SensorName: GoodRayPerceptionSensor
+  m_SensorName: RayPerceptionSensor
   m_DetectableTags:
   - GoodTroop
   - BadTroop
