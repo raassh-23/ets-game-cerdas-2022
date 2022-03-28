@@ -477,7 +477,7 @@ MonoBehaviour:
   _cellsGroups:
   - {fileID: 7516512742906147720}
   - {fileID: 5451106558815213398}
-  _troopSpawnCount: 6
+  _troopSpawnCount: 4
   MaxEnvironmentSteps: 10000
 --- !u!1 &5451106560039516965
 GameObject:
