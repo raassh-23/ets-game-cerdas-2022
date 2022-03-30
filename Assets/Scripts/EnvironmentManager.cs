@@ -19,7 +19,8 @@ public class EnvironmentManager : MonoBehaviour
 
     private float _cellDestroyedReward;
     private float _troopDestroyedReward;
-    private float _existensialReward;
+
+    public bool isOneSideDestroyed = false;
 
     private SimpleMultiAgentGroup _group1;
     private SimpleMultiAgentGroup _group2;
@@ -28,7 +29,6 @@ public class EnvironmentManager : MonoBehaviour
     {
         _group1 = new SimpleMultiAgentGroup();
         _group2 = new SimpleMultiAgentGroup();
-        _existensialReward = 1f / MaxEnvironmentSteps;
 
         InitScene();
     }
@@ -53,6 +53,7 @@ public class EnvironmentManager : MonoBehaviour
         RegisterAgent();
         _cellDestroyedReward = 1f / _cellsGroups[0].Cells.Count;
         _troopDestroyedReward = 0.3f / _cellsGroups[0].Troops.Count;
+        isOneSideDestroyed = false;
     }
 
     public void RespawnObjects()
@@ -138,14 +139,12 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (troop.gameObject.CompareTag("GoodTroop"))
         {
-            _group1.AddGroupReward(-0.5f*_troopDestroyedReward);
             _group2.AddGroupReward(_troopDestroyedReward);
             Debug.Log("GoodTroop Destroyed");
         }
         else if (troop.gameObject.CompareTag("BadTroop"))
         {
             _group1.AddGroupReward(_troopDestroyedReward);
-            _group2.AddGroupReward(-0.5f*_troopDestroyedReward);
             Debug.Log("BadTroop Destroyed");
         }
     }
@@ -154,15 +153,11 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (_cellsGroups[0].Troops.Count == 0 && _cellsGroups[1].Troops.Count == 0)
         {
-            EndEpisode(false);
+            EndEpisode(true);
         }
-        else if (_cellsGroups[0].Troops.Count == 0)
+        else if (_cellsGroups[0].Troops.Count == 0 || _cellsGroups[1].Troops.Count == 0)
         {
-            _group2.AddGroupReward(-_existensialReward);
-        }
-        else if (_cellsGroups[1].Troops.Count == 0)
-        {
-            _group1.AddGroupReward(-_existensialReward);
+            isOneSideDestroyed = true;
         }
     }
 

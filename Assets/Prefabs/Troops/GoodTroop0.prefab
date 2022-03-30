@@ -240,6 +240,7 @@ MonoBehaviour:
   Health: 0
   _speed: 1
   _attackCooldown: 2
+  _canAttack: 0
   _healthBar: {fileID: 740635800800904038}
   _healthFill: {fileID: 3793704605869474380}
   _isGoodTroop: 0
@@ -280,7 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 5
+    VectorObservationSize: 6
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
@@ -289,7 +290,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: d70e2bc1f9722d1499a0e37fe594b608, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: Troop
@@ -320,7 +321,7 @@ MonoBehaviour:
   m_RaysPerDirection: 4
   m_MaxRayDegrees: 180
   m_SphereCastRadius: 0.3
-  m_RayLength: 8
+  m_RayLength: 10
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291

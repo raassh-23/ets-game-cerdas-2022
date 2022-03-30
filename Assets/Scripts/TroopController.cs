@@ -30,6 +30,7 @@ public class TroopController : Agent, IAttackable
 
     private List<GameObject> _attackTargets { get; set; }
 
+    [SerializeField]
     private bool _canAttack = false;
 
     private SpriteRenderer _spriteRenderer;
@@ -141,6 +142,11 @@ public class TroopController : Agent, IAttackable
 
             attackTarget.TakeDamage(_damage);
             _canAttack = false;
+
+            if (target.CompareTag("GoodCell") || target.CompareTag("BadCell"))
+            {
+                AddReward(3f*_existentialReward);
+            }
 
             Debug.Log(gameObject.name + " has attacked " + target.name);
 
@@ -266,6 +272,7 @@ public class TroopController : Agent, IAttackable
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        sensor.AddObservation(_isGoodTroop);
         sensor.AddObservation(Health);
         sensor.AddObservation(_damage);
         sensor.AddObservation(_attackCooldown);
@@ -288,25 +295,20 @@ public class TroopController : Agent, IAttackable
                 break;
         }
 
-        // AddReward(-_existentialReward);
+        if (_isNearEnemyCell)
+        {
+            AddReward(_existentialReward);
+        }
 
-        // if (_isNearEnemyCell)
-        // {
-        //     AddReward(3f*_existentialReward);
-        //     // Debug.Log(gameObject.name + " has entered enemy area");
-        // }
+        if (_isNearWall || _isNearOwnCell)
+        {
+            AddReward(-_existentialReward);
+        }
 
-        // if (_isNearWall)
-        // {
-        //     AddReward(-_existentialReward);
-        //     // Debug.Log(gameObject.name + " is near wall");
-        // }
-
-        // if (_isNearOwnCell)
-        // {
-        //     AddReward(-2*_existentialReward);
-        //     Debug.Log(gameObject.name + " is near own cell");
-        // }
+        if (environmentManager.isOneSideDestroyed)
+        {
+            AddReward(-_existentialReward);
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)

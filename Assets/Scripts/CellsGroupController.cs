@@ -163,18 +163,31 @@ public class CellsGroupController : MonoBehaviour
     {
         int troopIndex = Random.Range(0, _troopsPrefab.Length);
 
-        int cellIndex = Random.Range(0, Cells.Count);
-        CellController cell = Cells[cellIndex];
+        Bounds bounds = _boxCollider.bounds;
 
-        SpawnTroopFromCell(troopIndex, cell);
+        Vector2 randomPosition = new Vector2(
+            Random.Range(bounds.min.x, bounds.max.x),
+            Random.Range(bounds.min.y, bounds.max.y)
+        );
+
+        TroopController troop = GetFromPool(troopIndex);
+        troop.transform.position = randomPosition;
+
+        if (_environmentManager != null)
+        {
+            troop.transform.parent = _environmentManager.transform;
+        }
+
+        troop.InitTroop();
     }
 
     public void RespawnCell()
     {
-        while (Cells.Count > 0) {
-            if (Cells[0] != null) 
+        while (Cells.Count > 0)
+        {
+            if (Cells[0] != null)
                 DestroyImmediate(Cells[0].gameObject);
-            
+
             Cells.RemoveAt(0);
         }
 
@@ -194,7 +207,8 @@ public class CellsGroupController : MonoBehaviour
             ReturnToPool(Troops[0]);
         }
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
+        {
             SpawnTroopRandomly();
         }
     }
