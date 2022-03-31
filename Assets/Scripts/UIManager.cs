@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
@@ -18,6 +17,12 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject _spawnOptionPrefab;
+
+    [SerializeField]
+    private GameObject _spawnOptionPanelContainer;
+
+    [SerializeField]
+    private GameObject _spawnCancelButton;
 
     public void ToggleSpawnOptionPanel()
     {
@@ -39,12 +44,17 @@ public class UIManager : MonoBehaviour
         _pointsText.text = "Points:\n" + points.ToString("0");
     }
 
-    public void SetSpawnOptions(SpawnOptionConfig[] spawnOptions)
+    public SpawnOptionController SetSpawnOptions(SpawnOptionConfig spawnOption)
     {
-        foreach(SpawnOptionConfig spawnOption in spawnOptions)
-        {
-            GameObject spawnOptionButton = Instantiate(_spawnOptionPrefab, _spawnOptionContainer, false);
-            spawnOptionButton.GetComponent<SpawnOptionController>().SetConfig(spawnOption);
-        }
+        GameObject spawnOptionButton = Instantiate(_spawnOptionPrefab, _spawnOptionContainer, false);
+        SpawnOptionController spawnOptionController = spawnOptionButton.GetComponent<SpawnOptionController>();
+        spawnOptionController.SetConfig(spawnOption);
+        return spawnOptionController;
+    }
+
+    public void SetSpawnUI(bool spawning)
+    {
+        _spawnOptionPanelContainer.SetActive(!spawning);
+        _spawnCancelButton.SetActive(spawning);
     }
 }

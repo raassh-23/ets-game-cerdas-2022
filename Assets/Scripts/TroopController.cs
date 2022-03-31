@@ -63,6 +63,7 @@ public class TroopController : Agent, IAttackable
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _attackTargets = new List<GameObject>();
 
         _initialColor = _spriteRenderer.color;
     }
@@ -86,7 +87,7 @@ public class TroopController : Agent, IAttackable
         _isNearOwnCell = false;
         
         _spriteRenderer.color = _initialColor;
-        _attackTargets = new List<GameObject>();
+        _attackTargets.Clear();
 
         if (gameObject.CompareTag("GoodTroop"))
         {

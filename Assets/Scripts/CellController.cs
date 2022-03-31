@@ -15,9 +15,19 @@ public class CellController : MonoBehaviour, IAttackable
 
     public UnityAction<CellController> OnCellDestroyed = delegate {};
 
+    private SpriteRenderer _spriteRenderer;
+    private Color _initialColor;
+
+    private Coroutine _curCoroutine = null;
+
+    public UnityAction<CellController> OnCellClicked = delegate { };
+
     private void Start() {
         Health = _initialHealth;
         _healthFill.localScale = new Vector3(1f, 1f, 1f);
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _initialColor = _spriteRenderer.color;
     }
 
     public void TakeDamage(float damage)
@@ -32,6 +42,36 @@ public class CellController : MonoBehaviour, IAttackable
         {
             OnCellDestroyed(this);
             Destroy(gameObject);
+        }
+    }
+
+    public void StartBlinking()
+    {
+        _curCoroutine = StartCoroutine(Blink());
+    }
+
+    private IEnumerator Blink()
+    {
+        while (true)
+        {
+            _spriteRenderer.color = Color.green;
+            yield return new WaitForSeconds(0.5f);
+            _spriteRenderer.color = _initialColor;
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    public void StopBlinking()
+    {
+        StopCoroutine(_curCoroutine);
+        _curCoroutine = null;
+        _spriteRenderer.color = _initialColor;
+    }
+
+    private void OnMouseDown() {
+        if (Input.GetMouseButtonDown(0)) {
+            Debug.Log("clciked from cell");
+            OnCellClicked(this);
         }
     }
 }

@@ -19,6 +19,11 @@ public class CellsGroupController : MonoBehaviour
     [SerializeField]
     private GameObject[] _troopsPrefab;
 
+    public GameObject[] TroopsPrefab
+    {
+        get { return _troopsPrefab; }
+    }
+
     private Dictionary<string, List<TroopController>> _troopsPool;
 
     public List<TroopController> Troops { get; private set; }
@@ -59,6 +64,11 @@ public class CellsGroupController : MonoBehaviour
 
     private void FixedUpdate() {
         _points += _addPoints * Time.fixedDeltaTime;
+    }
+
+    public void AddPoints(float points)
+    {
+        _points += points;
     }
 
     private void GetAllChildCells()
@@ -147,7 +157,7 @@ public class CellsGroupController : MonoBehaviour
         _troopsPool[troop.name].Add(troop);
     }
 
-    private void SpawnTroopFromCell(int troopIndex, CellController cell)
+    public void SpawnTroopFromCell(int troopIndex, CellController cell)
     {
         TroopController troop = GetFromPool(troopIndex);
         troop.transform.position = cell.transform.GetChild(0).position;
