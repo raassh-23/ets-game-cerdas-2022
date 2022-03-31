@@ -36,12 +36,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6699951543658769846, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e3bae291196300d4db3310b457a0bc7e, type: 3}
+    - target: {fileID: 6699951543658769846, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
       propertyPath: m_Color.b
-      value: 0.5058824
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6699951543658769846, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
       propertyPath: m_Color.g
-      value: 0.44705883
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6699951543658769846, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
       propertyPath: m_Color.r
@@ -90,6 +94,14 @@ PrefabInstance:
     - target: {fileID: 6699951543658769847, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007800895782366333, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
+      propertyPath: m_Radius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8705263995887646712, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
+      propertyPath: m_Radius
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 8820261123625149823, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
       propertyPath: m_SensorName

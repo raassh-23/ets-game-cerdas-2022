@@ -55,9 +55,10 @@ public class CellsGroupController : MonoBehaviour
             SpawnCellRandomly();
             GetAllChildCells();
         }
+    }
 
-        // placeholder just to test spawning
-        // InvokeRepeating("SpawnTroopRandomly", 2f, 2f);
+    private void FixedUpdate() {
+        _points += _addPoints * Time.fixedDeltaTime;
     }
 
     private void GetAllChildCells()

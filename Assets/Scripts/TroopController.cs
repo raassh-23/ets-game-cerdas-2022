@@ -47,9 +47,6 @@ public class TroopController : Agent, IAttackable
     [SerializeField]
     private Transform _healthFill;
 
-    private Quaternion _initialHealthBarRotation;
-    private Vector3 _initialHealthBarLocalPosition;
-
     [SerializeField]
     private bool _isGoodTroop = false;
 
@@ -66,8 +63,6 @@ public class TroopController : Agent, IAttackable
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _initialHealthBarRotation = _healthBar.rotation;
-        _initialHealthBarLocalPosition = _healthBar.localPosition;
 
         _initialColor = _spriteRenderer.color;
     }
@@ -91,8 +86,6 @@ public class TroopController : Agent, IAttackable
         _isNearOwnCell = false;
         
         _spriteRenderer.color = _initialColor;
-        _healthFill.localScale = new Vector3(1f, 1f, 1f);
-        _healthFill.localPosition = new Vector3(0f, 0f, 0f);
         _attackTargets = new List<GameObject>();
 
         if (gameObject.CompareTag("GoodTroop"))
@@ -112,22 +105,9 @@ public class TroopController : Agent, IAttackable
         MoveTroop();
     }
 
-    private void LateUpdate()
-    {
-        _healthBar.rotation = _initialHealthBarRotation;
-        _healthBar.position = transform.position + _initialHealthBarLocalPosition;
-    }
-
     private void MoveTroop()
     {
         _rigidbody.velocity = _direction * _speed;
-
-        if (_direction != Vector2.zero)
-        {
-            float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
-            Quaternion target = Quaternion.AngleAxis(angle, Vector3.forward);
-            transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime * 15f);
-        }
     }
 
     private IEnumerator Attack()
@@ -305,7 +285,7 @@ public class TroopController : Agent, IAttackable
             AddReward(-_existentialReward);
         }
 
-        if (environmentManager.isOneSideDestroyed)
+        if (environmentManager != null && environmentManager.isOneSideDestroyed)
         {
             AddReward(-_existentialReward);
         }

@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 555748697442155663, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
+      propertyPath: m_Radius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177931103078721290, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
+      propertyPath: m_Radius
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 4183243555570269504, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
       propertyPath: m_Name
       value: GoodTroop2
@@ -26,7 +34,7 @@ PrefabInstance:
     - target: {fileID: 4183243555570269508, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 606036f522c4c4a4db67c3a8cde4362f, type: 3}
+      objectReference: {fileID: 21300000, guid: a49cef7379f331f41bc20eb374699ce3, type: 3}
     - target: {fileID: 4183243555570269509, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
       propertyPath: m_RootOrder
       value: 0
