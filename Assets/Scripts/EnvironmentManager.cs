@@ -121,17 +121,13 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (cell.gameObject.CompareTag("GoodCell"))
         {
-            _group1.AddGroupReward(-0.5f*_cellDestroyedReward);
             _group2.AddGroupReward(_cellDestroyedReward);
             Debug.Log("GoodCell Destroyed");
-            Debug.Log(_cellsGroups[0].Cells.Count);
         }
         else if (cell.gameObject.CompareTag("BadCell"))
         {
             _group1.AddGroupReward(_cellDestroyedReward);
-            _group2.AddGroupReward(-0.5f*_cellDestroyedReward);
             Debug.Log("BadCell Destroyed");
-            Debug.Log(_cellsGroups[1].Cells.Count);
         }
     }
 

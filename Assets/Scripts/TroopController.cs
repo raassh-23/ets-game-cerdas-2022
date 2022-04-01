@@ -126,7 +126,7 @@ public class TroopController : Agent, IAttackable
 
             if (target.CompareTag("GoodCell") || target.CompareTag("BadCell"))
             {
-                AddReward(3f*_existentialReward);
+                AddReward(5f*_existentialReward);
             }
 
             Debug.Log(gameObject.name + " has attacked " + target.name);
@@ -276,12 +276,7 @@ public class TroopController : Agent, IAttackable
                 break;
         }
 
-        if (_isNearEnemyCell)
-        {
-            AddReward(_existentialReward);
-        }
-
-        if (_isNearWall || _isNearOwnCell)
+        if (_isNearWall)
         {
             AddReward(-_existentialReward);
         }
@@ -295,27 +290,17 @@ public class TroopController : Agent, IAttackable
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var conActions = actionsOut.ContinuousActions;
-        if (Input.GetMouseButton(0))
+        if(_attackTargets.Count > 0)
         {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 curPos = transform.position;
-
-            if (Vector2.Distance(mousePos, curPos) > 0.1f)
-            {
-                Vector2 dir = (mousePos - curPos).normalized;
-                conActions[0] = dir.x;
-                conActions[1] = dir.y;
-            }
-            else
-            {
-                conActions[0] = 0;
-                conActions[1] = 0;
-            }
+            Vector3 nearestPos = NearestObject(_attackTargets).transform.position;
+            Vector2 dir = (nearestPos - transform.position).normalized;
+            conActions[0] = dir.x;
+            conActions[1] = dir.y;
         }
         else
         {
-            conActions[0] = 0;
-            conActions[1] = 0;
+            conActions[0] = Random.Range(-1f, 1f);
+            conActions[1] = Random.Range(-1f, 1f);
         }
 
         if (_canAttack)
