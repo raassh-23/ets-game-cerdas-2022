@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -59,6 +58,9 @@ public class TroopController : Agent, IAttackable
     [SerializeField]
     private bool _isNearOwnCell = false;
 
+    [SerializeField]
+    private bool _isDamaged = false;
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -85,7 +87,8 @@ public class TroopController : Agent, IAttackable
         _isNearEnemyCell = false;
         _isNearWall = false;
         _isNearOwnCell = false;
-        
+        _isDamaged = false;
+
         _spriteRenderer.color = _initialColor;
         _attackTargets.Clear();
 
@@ -126,7 +129,7 @@ public class TroopController : Agent, IAttackable
 
             if (target.CompareTag("GoodCell") || target.CompareTag("BadCell"))
             {
-                AddReward(5f*_existentialReward);
+                AddReward(3f * _existentialReward);
             }
 
             Debug.Log(gameObject.name + " has attacked " + target.name);
@@ -169,6 +172,7 @@ public class TroopController : Agent, IAttackable
     public void TakeDamage(float damage)
     {
         Health -= damage;
+        _isDamaged = true;
 
         float healthPercent = Mathf.Clamp01(Health / _initialHealth);
         _healthFill.localScale = new Vector3(healthPercent, 1f, 1f);
@@ -276,21 +280,27 @@ public class TroopController : Agent, IAttackable
                 break;
         }
 
-        if (_isNearWall)
+        if (_isNearEnemyCell)
+        {
+            AddReward(3*_existentialReward);
+        }
+
+        if (_isNearWall || _isNearOwnCell)
         {
             AddReward(-_existentialReward);
         }
 
-        if (environmentManager != null && environmentManager.isOneSideDestroyed)
+        if (_isDamaged)
         {
-            AddReward(-_existentialReward);
+            AddReward(-2 * _existentialReward);
+            _isDamaged = false;
         }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var conActions = actionsOut.ContinuousActions;
-        if(_attackTargets.Count > 0)
+        if (_attackTargets.Count > 0)
         {
             Vector3 nearestPos = NearestObject(_attackTargets).transform.position;
             Vector2 dir = (nearestPos - transform.position).normalized;

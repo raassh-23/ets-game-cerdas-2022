@@ -221,7 +221,7 @@ MonoBehaviour:
   - {fileID: 9202170966479399943, guid: 9198e51fb1114e9449f46244ee0c35b4, type: 3}
   - {fileID: 8556050927081784901, guid: 38bf1c57a0f9dfd4b9963800a586d1d5, type: 3}
   - {fileID: 4645437553395010588, guid: b295ac7c9bdb4a145a03d5d43e956982, type: 3}
-  _spawnCellRandomly: 2
+  _spawnCellRandomly: 3
   _cellPrefab: {fileID: 2491801226913072371, guid: e9016de44f27e8446a8ef6f982ceab5b, type: 3}
 --- !u!61 &5451106558815213400
 BoxCollider2D:
@@ -451,8 +451,7 @@ MonoBehaviour:
   - {fileID: 7516512742906147720}
   - {fileID: 5451106558815213398}
   _troopSpawnCount: 4
-  MaxEnvironmentSteps: 20000
-  isOneSideDestroyed: 0
+  MaxEnvironmentSteps: 10000
 --- !u!1 &5451106560039516965
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,7 +616,7 @@ MonoBehaviour:
   - {fileID: 6680805863533082971, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
   - {fileID: 4183243555570269504, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
   - {fileID: 6699951543658769842, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
-  _spawnCellRandomly: 2
+  _spawnCellRandomly: 3
   _cellPrefab: {fileID: 2636654854086449690, guid: 1d96458b247ee3b4f842b0f799bf4031, type: 3}
 --- !u!61 &7516512742906147721
 BoxCollider2D:

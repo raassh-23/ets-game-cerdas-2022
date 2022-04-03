@@ -20,8 +20,6 @@ public class EnvironmentManager : MonoBehaviour
     private float _cellDestroyedReward;
     private float _troopDestroyedReward;
 
-    public bool isOneSideDestroyed = false;
-
     private SimpleMultiAgentGroup _group1;
     private SimpleMultiAgentGroup _group2;
 
@@ -41,7 +39,6 @@ public class EnvironmentManager : MonoBehaviour
             EndEpisode(true);
         }
 
-        CheckTroop();
         CheckCell();
     }
 
@@ -52,8 +49,7 @@ public class EnvironmentManager : MonoBehaviour
         RespawnObjects();
         RegisterAgent();
         _cellDestroyedReward = 1f / _cellsGroups[0].Cells.Count;
-        _troopDestroyedReward = 0.3f / _cellsGroups[0].Troops.Count;
-        isOneSideDestroyed = false;
+        _troopDestroyedReward = _cellDestroyedReward / 20f;
     }
 
     public void RespawnObjects()
@@ -133,28 +129,38 @@ public class EnvironmentManager : MonoBehaviour
 
     private void TroopDestroyed(TroopController troop)
     {
+        troop.OnTroopDeath -= TroopDestroyed;
+
         if (troop.gameObject.CompareTag("GoodTroop"))
         {
             _group2.AddGroupReward(_troopDestroyedReward);
             Debug.Log("GoodTroop Destroyed");
+            RespawnTroop(true);
         }
         else if (troop.gameObject.CompareTag("BadTroop"))
         {
             _group1.AddGroupReward(_troopDestroyedReward);
             Debug.Log("BadTroop Destroyed");
+            RespawnTroop(false);
         }
     }
 
-    private void CheckTroop()
+    private void RespawnTroop(bool isGood)
     {
-        if (_cellsGroups[0].Troops.Count == 0 && _cellsGroups[1].Troops.Count == 0)
+        TroopController newTroop;
+
+        if (isGood)
         {
-            EndEpisode(true);
+            newTroop = _cellsGroups[0].SpawnTroopRandomly();
+            _group1.RegisterAgent(newTroop);
         }
-        else if (_cellsGroups[0].Troops.Count == 0 || _cellsGroups[1].Troops.Count == 0)
+        else
         {
-            isOneSideDestroyed = true;
+            newTroop = _cellsGroups[1].SpawnTroopRandomly();
+            _group2.RegisterAgent(newTroop);
         }
+
+        newTroop.OnTroopDeath += TroopDestroyed;
     }
 
     private void CheckCell()

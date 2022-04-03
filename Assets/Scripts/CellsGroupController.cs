@@ -104,6 +104,7 @@ public class CellsGroupController : MonoBehaviour
         for (int i = 0; i < _spawnCellRandomly; i++)
         {
             Vector3 randomPosition;
+            Vector2 size = 2 * Vector2.Scale(_cellBounds.size, _cellPrefab.transform.localScale);
 
             do
             {
@@ -112,7 +113,7 @@ public class CellsGroupController : MonoBehaviour
                     Random.Range(bounds.min.y, bounds.max.y),
                     0
                 );
-            } while (Physics2D.OverlapBox(randomPosition, Vector2.Scale(_cellBounds.size, _cellPrefab.transform.localScale), 0) != null);
+            } while (Physics2D.OverlapBox(randomPosition, size, 0) != null);
 
 
             Instantiate(_cellPrefab, randomPosition, Quaternion.identity, transform);
@@ -157,7 +158,7 @@ public class CellsGroupController : MonoBehaviour
         _troopsPool[troop.name].Add(troop);
     }
 
-    public void SpawnTroopFromCell(int troopIndex, CellController cell)
+    public TroopController SpawnTroopFromCell(int troopIndex, CellController cell)
     {
         TroopController troop = GetFromPool(troopIndex);
         troop.transform.position = cell.transform.GetChild(0).position;
@@ -168,28 +169,17 @@ public class CellsGroupController : MonoBehaviour
         }
 
         troop.InitTroop();
+
+        return troop;
     }
 
-    public void SpawnTroopRandomly()
+    public TroopController SpawnTroopRandomly()
     {
         int troopIndex = Random.Range(0, _troopsPrefab.Length);
 
-        Bounds bounds = _boxCollider.bounds;
+        int cellIndex = Random.Range(0, Cells.Count);
 
-        Vector2 randomPosition = new Vector2(
-            Random.Range(bounds.min.x, bounds.max.x),
-            Random.Range(bounds.min.y, bounds.max.y)
-        );
-
-        TroopController troop = GetFromPool(troopIndex);
-        troop.transform.position = randomPosition;
-
-        if (_environmentManager != null)
-        {
-            troop.transform.parent = _environmentManager.transform;
-        }
-
-        troop.InitTroop();
+        return SpawnTroopFromCell(troopIndex, Cells[cellIndex]);
     }
 
     public void RespawnCell()
