@@ -39,6 +39,7 @@ public class EnvironmentManager : MonoBehaviour
             EndEpisode(true);
         }
 
+        CheckTroop();
         CheckCell();
     }
 
@@ -135,13 +136,11 @@ public class EnvironmentManager : MonoBehaviour
         {
             _group2.AddGroupReward(_troopDestroyedReward);
             Debug.Log("GoodTroop Destroyed");
-            RespawnTroop(true);
         }
         else if (troop.gameObject.CompareTag("BadTroop"))
         {
             _group1.AddGroupReward(_troopDestroyedReward);
             Debug.Log("BadTroop Destroyed");
-            RespawnTroop(false);
         }
     }
 
@@ -161,6 +160,18 @@ public class EnvironmentManager : MonoBehaviour
         }
 
         newTroop.OnTroopDeath += TroopDestroyed;
+    }
+
+    private void CheckTroop() {
+        if (_cellsGroups[0].Troops.Count < _troopSpawnCount)
+        {
+            RespawnTroop(true);
+        }
+        
+        if (_cellsGroups[1].Troops.Count < _troopSpawnCount)
+        {
+            RespawnTroop(false);
+        }
     }
 
     private void CheckCell()

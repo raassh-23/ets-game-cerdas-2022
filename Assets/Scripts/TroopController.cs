@@ -92,6 +92,9 @@ public class TroopController : Agent, IAttackable
         _spriteRenderer.color = _initialColor;
         _attackTargets.Clear();
 
+        _healthFill.localScale = new Vector3(1f, 1f, 1f);
+        _healthFill.localPosition = new Vector3(0f, 0f, 0f);
+
         if (gameObject.CompareTag("GoodTroop"))
         {
             _isGoodTroop = true;
