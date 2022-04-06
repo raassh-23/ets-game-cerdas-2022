@@ -236,7 +236,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0060358047, y: 0.021094799}
+  m_Offset: {x: 5.468619, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -247,7 +247,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 15.4165535, y: 6.979743}
+  m_Size: {x: 5.017162, y: 8.040093}
   m_EdgeRadius: 0
 --- !u!1 &5451106558980521289
 GameObject:
@@ -451,7 +451,9 @@ MonoBehaviour:
   - {fileID: 7516512742906147720}
   - {fileID: 5451106558815213398}
   _troopSpawnCount: 4
-  MaxEnvironmentSteps: 10000
+  MaxEnvironmentSteps: 20000
+  isOneSideDestroyed: 0
+  isTraining: 1
 --- !u!1 &5451106560039516965
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +633,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0019016266, y: -0.021094799}
+  m_Offset: {x: -5.468619, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -642,7 +644,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 15.424822, y: 6.979743}
+  m_Size: {x: 5.017162, y: 8.040093}
   m_EdgeRadius: 0
 --- !u!1 &8331332394141916396
 GameObject:

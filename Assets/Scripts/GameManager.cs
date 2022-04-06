@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
             spawnOptionController.OnClicked += SetSelectedTroop;
             _activeSpawnOptions.Add(spawnOptionController);
         }
+
+        Invoke("BadCellSpawnTroop", Random.Range(0f, 3f));
     }
 
     private void Update()
@@ -96,6 +98,11 @@ public class GameManager : MonoBehaviour
         CancelSpawn();
     }
 
+    private void BadCellSpawnTroop() {
+        _badCellsGroup.SpawnTroopRandomly();
+
+        Invoke("BadCellSpawnTroop", Random.Range(3f, 10f));
+    }
 }
 
 [System.Serializable]

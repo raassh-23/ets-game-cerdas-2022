@@ -23,6 +23,10 @@ public class EnvironmentManager : MonoBehaviour
     private SimpleMultiAgentGroup _group1;
     private SimpleMultiAgentGroup _group2;
 
+    public bool isOneSideDestroyed = false;
+
+    public bool isTraining = true;
+
     void Start()
     {
         _group1 = new SimpleMultiAgentGroup();
@@ -33,23 +37,32 @@ public class EnvironmentManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _resetTimer++;
-        if (_resetTimer >= MaxEnvironmentSteps)
+        if (isTraining)
         {
-            EndEpisode(true);
-        }
+            _resetTimer++;
+            if (_resetTimer >= MaxEnvironmentSteps)
+            {
+                EndEpisode(true);
+            }
 
-        CheckTroop();
-        CheckCell();
+            CheckCell();
+            CheckTroop();
+        }
     }
 
     public void InitScene()
     {
         Debug.Log("InitScene");
         _resetTimer = 0;
-        RespawnObjects();
+
+        if (isTraining) {
+            RespawnObjects();
+        }
+
+        SetupObjects();
         RegisterAgent();
-        _cellDestroyedReward = 1f / _cellsGroups[0].Cells.Count;
+
+        _cellDestroyedReward = 1f / (float)_cellsGroups[0].Cells.Count;
         _troopDestroyedReward = _cellDestroyedReward / 20f;
     }
 
@@ -59,7 +72,13 @@ public class EnvironmentManager : MonoBehaviour
         {
             cellsGroup.RespawnCell();
             cellsGroup.RespawnTroops(_troopSpawnCount);
+        }
+    }
 
+    public void SetupObjects()
+    {
+        foreach (var cellsGroup in _cellsGroups)
+        {
             foreach (var cell in cellsGroup.Cells)
             {
                 cell.OnCellDestroyed += CellDestroyed;
@@ -120,11 +139,14 @@ public class EnvironmentManager : MonoBehaviour
         {
             _group2.AddGroupReward(_cellDestroyedReward);
             Debug.Log("GoodCell Destroyed");
+            Debug.Log("GoodCell: " + _cellsGroups[0].Cells.Count);
         }
         else if (cell.gameObject.CompareTag("BadCell"))
         {
             _group1.AddGroupReward(_cellDestroyedReward);
             Debug.Log("BadCell Destroyed");
+            Debug.Log("BadCell: " + _cellsGroups[1].Cells.Count);
+
         }
     }
 
@@ -162,15 +184,15 @@ public class EnvironmentManager : MonoBehaviour
         newTroop.OnTroopDeath += TroopDestroyed;
     }
 
-    private void CheckTroop() {
-        if (_cellsGroups[0].Troops.Count < _troopSpawnCount)
+    private void CheckTroop()
+    {
+        if (_cellsGroups[0].Troops.Count == 0 && _cellsGroups[1].Troops.Count == 0)
         {
-            RespawnTroop(true);
+            EndEpisode(true);
         }
-        
-        if (_cellsGroups[1].Troops.Count < _troopSpawnCount)
+        else if (_cellsGroups[0].Troops.Count == 0 || _cellsGroups[1].Troops.Count == 0)
         {
-            RespawnTroop(false);
+            isOneSideDestroyed = true;
         }
     }
 
@@ -187,14 +209,14 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (_cellsGroups[0].Cells.Count > _cellsGroups[1].Cells.Count)
         {
-            _group1.AddGroupReward(1f);
+            _group1.AddGroupReward(1f - _resetTimer/(float)MaxEnvironmentSteps);
             _group2.AddGroupReward(-1f);
             Debug.Log("Good wins");
         }
         else if (_cellsGroups[1].Cells.Count > _cellsGroups[0].Cells.Count)
         {
             _group1.AddGroupReward(-1f);
-            _group2.AddGroupReward(1f);
+            _group2.AddGroupReward(1f - _resetTimer/(float)MaxEnvironmentSteps);
             Debug.Log("Bad wins");
         }
         else
@@ -206,10 +228,13 @@ public class EnvironmentManager : MonoBehaviour
 
         UnregisterAgent();
 
-        if (timeout) {
+        if (timeout)
+        {
             _group1.GroupEpisodeInterrupted();
             _group2.GroupEpisodeInterrupted();
-        } else {
+        }
+        else
+        {
             _group1.EndGroupEpisode();
             _group2.EndGroupEpisode();
         }

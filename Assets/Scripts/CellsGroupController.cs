@@ -52,17 +52,16 @@ public class CellsGroupController : MonoBehaviour
         {
             _troopsPool.Add(troopPrefab.name, new List<TroopController>());
         }
-    }
-    private void Start()
-    {
-        if (_environmentManager == null)
+
+        if (_environmentManager == null || !_environmentManager.isTraining)
         {
             SpawnCellRandomly();
             GetAllChildCells();
         }
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         _points += _addPoints * Time.fixedDeltaTime;
     }
 
@@ -104,7 +103,7 @@ public class CellsGroupController : MonoBehaviour
         for (int i = 0; i < _spawnCellRandomly; i++)
         {
             Vector3 randomPosition;
-            Vector2 size = 2 * Vector2.Scale(_cellBounds.size, _cellPrefab.transform.localScale);
+            Vector2 size = Vector2.Scale(_cellBounds.size, _cellPrefab.transform.localScale);
 
             do
             {

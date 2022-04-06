@@ -70,7 +70,7 @@ public class CellController : MonoBehaviour, IAttackable
 
     private void OnMouseDown() {
         if (Input.GetMouseButtonDown(0)) {
-            Debug.Log("clciked from cell");
+            Debug.Log("Left clicked from cell");
             OnCellClicked(this);
         }
     }

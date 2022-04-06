@@ -79,6 +79,7 @@ public class TroopController : Agent, IAttackable
         }
         else
         {
+            _existentialReward = 0f;
             Debug.Log("EnvironmentManager is null");
         }
 
@@ -132,7 +133,7 @@ public class TroopController : Agent, IAttackable
 
             if (target.CompareTag("GoodCell") || target.CompareTag("BadCell"))
             {
-                AddReward(3f * _existentialReward);
+                AddReward(6f * _existentialReward);
             }
 
             Debug.Log(gameObject.name + " has attacked " + target.name);
@@ -251,21 +252,10 @@ public class TroopController : Agent, IAttackable
             _isNearEnemyCell = false;
         }
 
-
         if (other.gameObject.CompareTag("wall"))
         {
             _isNearWall = false;
         }
-    }
-
-    public override void CollectObservations(VectorSensor sensor)
-    {
-        sensor.AddObservation(_isGoodTroop);
-        sensor.AddObservation(Health);
-        sensor.AddObservation(_damage);
-        sensor.AddObservation(_attackCooldown);
-        sensor.AddObservation(_speed);
-        sensor.AddObservation(_attackTargets.Count);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -285,18 +275,36 @@ public class TroopController : Agent, IAttackable
 
         if (_isNearEnemyCell)
         {
-            AddReward(3*_existentialReward);
+            AddReward(3 * _existentialReward);
         }
 
-        if (_isNearWall || _isNearOwnCell)
+        if (_isNearOwnCell)
         {
-            AddReward(-_existentialReward);
+            AddReward(-3 * _existentialReward);
+        }
+
+        if (_isNearWall)
+        {
+            AddReward(-2 * _existentialReward);
         }
 
         if (_isDamaged)
         {
             AddReward(-2 * _existentialReward);
             _isDamaged = false;
+        }
+
+        if (environmentManager.isOneSideDestroyed) 
+        {
+            AddReward(-1 * _existentialReward);
+        }
+
+        if (_isGoodTroop) {
+            AddReward(-1 * _existentialReward);
+        }
+        else
+        {
+            AddReward(_existentialReward);
         }
     }
 
