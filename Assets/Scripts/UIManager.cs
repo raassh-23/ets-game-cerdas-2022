@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -24,24 +25,39 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject _spawnCancelButton;
 
+    public UnityAction OnCanvasClicked = delegate { };
+
+    private bool _isShowingPanel = false;
+
+    private bool _isAnimatingPanel = false;
+
     public void ToggleSpawnOptionPanel()
     {
-        Text buttonText = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>();
-
-        if(_spawnOptionPanel.activeSelf)
+        if (_isAnimatingPanel)
         {
-            _spawnOptionPanel.SetActive(false);
-            buttonText.text = "Show";
+            return;
+        }
+        
+        Text buttonText = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>();
+        _isShowingPanel = !_isShowingPanel;
+
+        if (_isShowingPanel)
+        {
+            // _spawnOptionPanel.SetActive(true);
+            buttonText.text = "H\nI\nD\nE";
+            StartCoroutine(AnimateHorizontalSpawnOptionPanel(340f, 0.5f));
         }
         else
         {
-            _spawnOptionPanel.SetActive(true);
-            buttonText.text = "Hide";
+            // _spawnOptionPanel.SetActive(false);
+            buttonText.text = "S\nH\nO\nW";
+            StartCoroutine(AnimateHorizontalSpawnOptionPanel(-300f, 0.5f));
         }
     }
 
-    public void SetPointsText(float points) {
-        _pointsText.text = "Points:\n" + points.ToString("0");
+    public void SetPointsText(float points)
+    {
+        _pointsText.text = points.ToString("0");
     }
 
     public SpawnOptionController SetSpawnOptions(SpawnOptionConfig spawnOption)
@@ -56,5 +72,21 @@ public class UIManager : MonoBehaviour
     {
         _spawnOptionPanelContainer.SetActive(!spawning);
         _spawnCancelButton.SetActive(spawning);
+    }
+
+    public IEnumerator AnimateHorizontalSpawnOptionPanel(float target, float duration = 1f)
+    {
+        _isAnimatingPanel = true;
+        RectTransform rectTransform = _spawnOptionPanel.GetComponent<RectTransform>();
+        float start = rectTransform.anchoredPosition.x;
+        float cur = 0f;
+        while (cur < duration) {
+            cur += Time.deltaTime;
+            float curX = Mathf.SmoothStep(start, target, cur / duration);
+            rectTransform.anchoredPosition = new Vector2(curX, rectTransform.anchoredPosition.y);
+            Debug.Log("curX: " + curX);
+            yield return null;
+        }
+        _isAnimatingPanel = false;
     }
 }

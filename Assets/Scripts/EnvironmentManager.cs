@@ -62,6 +62,8 @@ public class EnvironmentManager : MonoBehaviour
         SetupObjects();
         RegisterAgent();
 
+        isOneSideDestroyed = false;
+
         _cellDestroyedReward = 1f / (float)_cellsGroups[0].Cells.Count;
         _troopDestroyedReward = _cellDestroyedReward / 20f;
     }
@@ -209,14 +211,14 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (_cellsGroups[0].Cells.Count > _cellsGroups[1].Cells.Count)
         {
-            _group1.AddGroupReward(1f - _resetTimer/(float)MaxEnvironmentSteps);
+            _group1.AddGroupReward(1f);
             _group2.AddGroupReward(-1f);
             Debug.Log("Good wins");
         }
         else if (_cellsGroups[1].Cells.Count > _cellsGroups[0].Cells.Count)
         {
             _group1.AddGroupReward(-1f);
-            _group2.AddGroupReward(1f - _resetTimer/(float)MaxEnvironmentSteps);
+            _group2.AddGroupReward(1f);
             Debug.Log("Bad wins");
         }
         else

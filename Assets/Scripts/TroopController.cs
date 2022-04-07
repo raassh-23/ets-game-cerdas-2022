@@ -298,14 +298,6 @@ public class TroopController : Agent, IAttackable
         {
             AddReward(-1 * _existentialReward);
         }
-
-        if (_isGoodTroop) {
-            AddReward(-1 * _existentialReward);
-        }
-        else
-        {
-            AddReward(_existentialReward);
-        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
