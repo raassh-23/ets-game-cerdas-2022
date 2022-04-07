@@ -20,16 +20,20 @@ public class UIManager : MonoBehaviour
     private GameObject _spawnOptionPrefab;
 
     [SerializeField]
-    private GameObject _spawnOptionPanelContainer;
-
-    [SerializeField]
     private GameObject _spawnCancelButton;
 
-    public UnityAction OnCanvasClicked = delegate { };
+    [SerializeField]
+    private Button _spawnOptionButton;
+
+    private Text _spawnOptionButtonText;
 
     private bool _isShowingPanel = false;
 
     private bool _isAnimatingPanel = false;
+
+    private void Start() {
+        _spawnOptionButtonText = _spawnOptionButton.GetComponentInChildren<Text>();
+    }
 
     public void ToggleSpawnOptionPanel()
     {
@@ -37,20 +41,17 @@ public class UIManager : MonoBehaviour
         {
             return;
         }
-        
-        Text buttonText = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>();
+    
         _isShowingPanel = !_isShowingPanel;
 
         if (_isShowingPanel)
         {
-            // _spawnOptionPanel.SetActive(true);
-            buttonText.text = "H\nI\nD\nE";
+            _spawnOptionButtonText.text = "H\nI\nD\nE";
             StartCoroutine(AnimateHorizontalSpawnOptionPanel(340f, 0.5f));
         }
         else
         {
-            // _spawnOptionPanel.SetActive(false);
-            buttonText.text = "S\nH\nO\nW";
+            _spawnOptionButtonText.text = "S\nH\nO\nW";
             StartCoroutine(AnimateHorizontalSpawnOptionPanel(-300f, 0.5f));
         }
     }
@@ -70,8 +71,15 @@ public class UIManager : MonoBehaviour
 
     public void SetSpawnUI(bool spawning)
     {
-        _spawnOptionPanelContainer.SetActive(!spawning);
         _spawnCancelButton.SetActive(spawning);
+
+        if (spawning) {
+            _spawnOptionButtonText.text = "C\nA\nN\nC\nE\nL";
+            StartCoroutine(AnimateHorizontalSpawnOptionPanel(-300f, 0.5f));
+        } else {
+            _spawnOptionButtonText.text = "H\nI\nD\nE";
+            StartCoroutine(AnimateHorizontalSpawnOptionPanel(340f, 0.5f));
+        }
     }
 
     public IEnumerator AnimateHorizontalSpawnOptionPanel(float target, float duration = 1f)

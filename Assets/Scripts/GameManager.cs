@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
             _activeSpawnOptions.Add(spawnOptionController);
         }
 
-        Invoke("BadCellSpawnTroop", Random.Range(0f, 3f));
+        Invoke("BadCellSpawnTroop", Random.Range(0f, 5f));
     }
 
     private void Update()
@@ -98,17 +98,18 @@ public class GameManager : MonoBehaviour
         CancelSpawn();
     }
 
-    private void BadCellSpawnTroop() {
+    private void BadCellSpawnTroop()
+    {
         _badCellsGroup.SpawnTroopRandomly();
 
-        Invoke("BadCellSpawnTroop", Random.Range(3f, 10f));
+        Invoke("BadCellSpawnTroop", Random.Range(5f, 15f));
     }
 }
 
 [System.Serializable]
 public struct SpawnOptionConfig
 {
-    public string name;
     public GameObject prefab;
     public float price;
+    public Color bgColor;
 }
