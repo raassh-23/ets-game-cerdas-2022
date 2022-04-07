@@ -291,10 +291,10 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 3719a9798400f6a4f9ef55a46e226fb6, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: Troop
+  m_BehaviorName: Troop1
   TeamId: 1
   m_UseChildSensors: 1
   m_UseChildActuators: 1
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67c7e722ba14acd9153bb4488bff6e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SensorName: RayPerceptionSensor
+  m_SensorName: GoodRayPerceptionSensor
   m_DetectableTags:
   - GoodTroop
   - BadTroop

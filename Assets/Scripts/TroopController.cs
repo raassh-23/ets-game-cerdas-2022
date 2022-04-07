@@ -133,7 +133,7 @@ public class TroopController : Agent, IAttackable
 
             if (target.CompareTag("GoodCell") || target.CompareTag("BadCell"))
             {
-                AddReward(6f * _existentialReward);
+                AddReward(5f * _existentialReward);
             }
 
             Debug.Log(gameObject.name + " has attacked " + target.name);
@@ -275,22 +275,17 @@ public class TroopController : Agent, IAttackable
 
         if (_isNearEnemyCell)
         {
-            AddReward(3 * _existentialReward);
+            AddReward(2 * _existentialReward);
         }
 
-        if (_isNearOwnCell)
+        if (_isNearOwnCell || _isNearWall)
         {
-            AddReward(-3 * _existentialReward);
-        }
-
-        if (_isNearWall)
-        {
-            AddReward(-2 * _existentialReward);
+            AddReward(-1 * _existentialReward);
         }
 
         if (_isDamaged)
         {
-            AddReward(-2 * _existentialReward);
+            AddReward(-1 * _existentialReward);
             _isDamaged = false;
         }
 

@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: TeamId
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 909818468856578721, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
+      propertyPath: m_BehaviorName
+      value: Troop2
+      objectReference: {fileID: 0}
     - target: {fileID: 6680805863533082971, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
       propertyPath: m_Name
       value: BadTroop0
@@ -93,7 +97,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8802887065935901078, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
       propertyPath: m_SensorName
-      value: RayPerceptionSensor
+      value: BadRayPerceptionSensor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}

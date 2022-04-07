@@ -65,7 +65,7 @@ public class EnvironmentManager : MonoBehaviour
         isOneSideDestroyed = false;
 
         _cellDestroyedReward = 1f / (float)_cellsGroups[0].Cells.Count;
-        _troopDestroyedReward = _cellDestroyedReward / 20f;
+        _troopDestroyedReward = _cellDestroyedReward / 10f;
     }
 
     public void RespawnObjects()
@@ -211,14 +211,14 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (_cellsGroups[0].Cells.Count > _cellsGroups[1].Cells.Count)
         {
-            _group1.AddGroupReward(1f);
+            _group1.AddGroupReward(1f - _cellsGroups[1].Cells.Count * _cellDestroyedReward);
             _group2.AddGroupReward(-1f);
             Debug.Log("Good wins");
         }
         else if (_cellsGroups[1].Cells.Count > _cellsGroups[0].Cells.Count)
         {
             _group1.AddGroupReward(-1f);
-            _group2.AddGroupReward(1f);
+            _group2.AddGroupReward(1f - _cellsGroups[0].Cells.Count * _cellDestroyedReward);
             Debug.Log("Bad wins");
         }
         else
