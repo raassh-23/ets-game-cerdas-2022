@@ -104,6 +104,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7645831526034179770, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: a46930c7dae668441b48501e919202bf, type: 3}
+    - target: {fileID: 7645831526034179770, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
       propertyPath: m_BehaviorName
       value: Troop2
       objectReference: {fileID: 0}
