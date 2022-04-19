@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -25,6 +26,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Button _spawnOptionButton;
 
+    [SerializeField]
+    private GameObject _inGamePanel;
+
+    [SerializeField]
+    private GameObject _pausedPanel;
+
     private Text _spawnOptionButtonText;
 
     private bool _isShowingPanel = false;
@@ -33,7 +40,8 @@ public class UIManager : MonoBehaviour
 
     private bool _isPaused = false;
 
-    private void Start() {
+    private void Start()
+    {
         _spawnOptionButtonText = _spawnOptionButton.GetComponentInChildren<Text>();
     }
 
@@ -43,7 +51,7 @@ public class UIManager : MonoBehaviour
         {
             return;
         }
-    
+
         _isShowingPanel = !_isShowingPanel;
 
         if (_isShowingPanel)
@@ -75,10 +83,13 @@ public class UIManager : MonoBehaviour
     {
         _spawnCancelButton.SetActive(spawning);
 
-        if (spawning) {
+        if (spawning)
+        {
             _spawnOptionButtonText.text = "C\nA\nN\nC\nE\nL";
             StartCoroutine(AnimateHorizontalSpawnOptionPanel(-300f, 0.5f));
-        } else {
+        }
+        else
+        {
             _spawnOptionButtonText.text = "H\nI\nD\nE";
             StartCoroutine(AnimateHorizontalSpawnOptionPanel(340f, 0.5f));
         }
@@ -90,7 +101,8 @@ public class UIManager : MonoBehaviour
         RectTransform rectTransform = _spawnOptionPanel.GetComponent<RectTransform>();
         float start = rectTransform.anchoredPosition.x;
         float cur = 0f;
-        while (cur < duration) {
+        while (cur < duration)
+        {
             cur += Time.deltaTime;
             float curX = Mathf.SmoothStep(start, target, cur / duration);
             rectTransform.anchoredPosition = new Vector2(curX, rectTransform.anchoredPosition.y);
@@ -100,17 +112,17 @@ public class UIManager : MonoBehaviour
         _isAnimatingPanel = false;
     }
 
-    public void togglePaused()
+    public void TogglePaused()
     {
         _isPaused = !_isPaused;
 
-        if (_isPaused)
-        {
-            Time.timeScale = 0;
-        }
-        else
-        {
-            Time.timeScale = 1;
-        }
+        Time.timeScale = _isPaused ? 0 : 1;
+        _inGamePanel.SetActive(!_isPaused);
+        _pausedPanel.SetActive(_isPaused);
+    }
+
+    public void GoToHome()
+    {
+        SceneManager.LoadScene("Home");
     }
 }
