@@ -258,6 +258,15 @@ public class TroopController : Agent, IAttackable
         }
     }
 
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        sensor.AddObservation(Health);
+        sensor.AddObservation(_speed);
+        sensor.AddObservation(_attackCooldown);
+        sensor.AddObservation(_damage);
+        sensor.AddObservation(_attackTargets.Count);
+    }
+
     public override void OnActionReceived(ActionBuffers actions)
     {
         float moveX = actions.ContinuousActions[0];
@@ -273,14 +282,19 @@ public class TroopController : Agent, IAttackable
                 break;
         }
 
-        if (_isNearEnemyCell)
-        {
-            AddReward(2 * _existentialReward);
-        }
+        // if (_isNearEnemyCell)
+        // {
+        //     AddReward(2 * _existentialReward);
+        // }
 
-        if (_isNearOwnCell || _isNearWall)
+        // if (_isNearOwnCell || _isNearWall)
+        // {
+        //     AddReward(-1 * _existentialReward);
+        // }
+
+        if (_isNearWall)
         {
-            AddReward(-1 * _existentialReward);
+            AddReward(-2 * _existentialReward);
         }
 
         if (_isDamaged)
@@ -289,7 +303,7 @@ public class TroopController : Agent, IAttackable
             _isDamaged = false;
         }
 
-        if (environmentManager.isOneSideDestroyed) 
+        if (environmentManager.isOneSideDestroyed)
         {
             AddReward(-1 * _existentialReward);
         }

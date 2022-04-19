@@ -65,7 +65,7 @@ public class EnvironmentManager : MonoBehaviour
         isOneSideDestroyed = false;
 
         _cellDestroyedReward = 1f / (float)_cellsGroups[0].Cells.Count;
-        _troopDestroyedReward = _cellDestroyedReward / 10f;
+        _troopDestroyedReward = _cellDestroyedReward / 5f;
     }
 
     public void RespawnObjects()
@@ -139,16 +139,15 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (cell.gameObject.CompareTag("GoodCell"))
         {
+            _group1.AddGroupReward(-1 * _cellDestroyedReward);
             _group2.AddGroupReward(_cellDestroyedReward);
             Debug.Log("GoodCell Destroyed");
-            Debug.Log("GoodCell: " + _cellsGroups[0].Cells.Count);
         }
         else if (cell.gameObject.CompareTag("BadCell"))
         {
             _group1.AddGroupReward(_cellDestroyedReward);
+            _group2.AddGroupReward(-1 * _cellDestroyedReward);
             Debug.Log("BadCell Destroyed");
-            Debug.Log("BadCell: " + _cellsGroups[1].Cells.Count);
-
         }
     }
 

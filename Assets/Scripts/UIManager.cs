@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour
 
     private bool _isAnimatingPanel = false;
 
+    private bool _isPaused = false;
+
     private void Start() {
         _spawnOptionButtonText = _spawnOptionButton.GetComponentInChildren<Text>();
     }
@@ -96,5 +98,19 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
         _isAnimatingPanel = false;
+    }
+
+    public void togglePaused()
+    {
+        _isPaused = !_isPaused;
+
+        if (_isPaused)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
     }
 }
