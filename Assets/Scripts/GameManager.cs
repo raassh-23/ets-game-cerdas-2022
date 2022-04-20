@@ -23,12 +23,15 @@ public class GameManager : MonoBehaviour
 
     public static float Score { get; private set; }
 
+    private bool _isGameOver;
+
     private void Start()
     {
         // work around for lagging when spawning the first troop
         Destroy(GetComponentInChildren<TroopController>().gameObject);
 
         Score = 0;
+        _isGameOver = false;
 
         _activeSpawnOptions = new List<SpawnOptionController>();
 
@@ -51,19 +54,22 @@ public class GameManager : MonoBehaviour
             spawnOption.SetSpawnable(_goodCellsGroup.Points >= spawnOption.GetPrice());
         }
 
-        if (_goodCellsGroup.Cells.Count == 0)
+        if (!_isGameOver)
         {
-            DestroyAllTroops();
-            _uiManager.ShowGameOverPanel();
-        }
+            if (_goodCellsGroup.Cells.Count == 0)
+            {
+                _isGameOver = true;
+                _uiManager.ShowGameOverPanel();
+            }
 
-        if (_badCellsGroup.Cells.Count == 0)
-        {
-            DestroyAllTroops();
-            SaveManager.SetUnlockedLevel(SaveManager.CurrentLevel);
-            SaveManager.SetLevelHighscore(SaveManager.CurrentLevel, Score);
-            _uiManager.SetScoreText(Score);
-            _uiManager.ShowGameWonPanel();
+            if (_badCellsGroup.Cells.Count == 0)
+            {
+                _isGameOver = true;
+                SaveManager.SetUnlockedLevel(SaveManager.CurrentLevel);
+                SaveManager.SetLevelHighscore(SaveManager.CurrentLevel, Score);
+                _uiManager.SetScoreText(Score);
+                _uiManager.ShowGameWonPanel();
+            }
         }
     }
 
@@ -128,12 +134,6 @@ public class GameManager : MonoBehaviour
     public static void AddScore(int score)
     {
         Score += score;
-    }
-
-    public void DestroyAllTroops()
-    {
-        _goodCellsGroup.ReturnAllTroopsToPool();
-        _badCellsGroup.ReturnAllTroopsToPool();
     }
 }
 
