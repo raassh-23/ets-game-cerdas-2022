@@ -42,7 +42,7 @@ public class CellController : MonoBehaviour, IAttackable
         {
             if (gameObject.CompareTag("BadCell"))
             {
-                GameManager.AddScore(500);
+                GameManager.AddScore(100);
             }
             
             OnCellDestroyed(this);

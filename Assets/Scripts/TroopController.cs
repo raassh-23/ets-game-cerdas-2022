@@ -186,7 +186,7 @@ public class TroopController : Agent, IAttackable
         {
             if (!_isGoodTroop)
             {
-                GameManager.AddScore(100);
+                GameManager.AddScore(10);
             }
             
             OnTroopDeath(this);

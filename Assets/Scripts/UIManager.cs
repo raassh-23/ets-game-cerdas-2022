@@ -115,7 +115,6 @@ public class UIManager : MonoBehaviour
             cur += Time.deltaTime;
             float curX = Mathf.SmoothStep(start, target, cur / duration);
             rectTransform.anchoredPosition = new Vector2(curX, rectTransform.anchoredPosition.y);
-            Debug.Log("curX: " + curX);
             yield return null;
         }
         _isAnimatingPanel = false;
