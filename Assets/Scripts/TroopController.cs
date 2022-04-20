@@ -184,6 +184,11 @@ public class TroopController : Agent, IAttackable
 
         if (Health <= 0)
         {
+            if (!_isGoodTroop)
+            {
+                GameManager.AddScore(10);
+            }
+            
             OnTroopDeath(this);
         }
     }

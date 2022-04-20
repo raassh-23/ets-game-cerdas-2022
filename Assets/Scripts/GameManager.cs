@@ -20,10 +20,23 @@ public class GameManager : MonoBehaviour
 
     private SpawnOptionConfig _selectedSpawnOption;
 
+    public static float Score { get; private set; }
+
+    private bool _isGameOver;
+
+    [SerializeField]
+    private float _time;
+
+    private float _countdown;
+
     private void Start()
     {
         // work around for lagging when spawning the first troop
         Destroy(GetComponentInChildren<TroopController>().gameObject);
+
+        Score = 0;
+        _isGameOver = false;
+        _countdown = _time;
 
         _activeSpawnOptions = new List<SpawnOptionController>();
 
@@ -44,6 +57,34 @@ public class GameManager : MonoBehaviour
         foreach (var spawnOption in _activeSpawnOptions)
         {
             spawnOption.SetSpawnable(_goodCellsGroup.Points >= spawnOption.GetPrice());
+        }
+
+        if (!_isGameOver)
+        {
+            _countdown -= Time.deltaTime;
+
+            if (_countdown <= 0)
+            {
+                _isGameOver = true;
+                _uiManager.ShowGameLostPanel();
+            } else {
+                _uiManager.SetTimeText(_countdown);
+            }
+
+            if (_goodCellsGroup.Cells.Count == 0)
+            {
+                _isGameOver = true;
+                _uiManager.ShowGameLostPanel();
+            }
+
+            if (_badCellsGroup.Cells.Count == 0)
+            {
+                _isGameOver = true;
+                SaveManager.SetUnlockedLevel(SaveManager.CurrentLevel);
+                SaveManager.SetLevelHighscore(SaveManager.CurrentLevel, Score);
+                _uiManager.SetScoreText(Score);
+                _uiManager.ShowGameWonPanel();
+            }
         }
     }
 
@@ -103,6 +144,11 @@ public class GameManager : MonoBehaviour
         _badCellsGroup.SpawnTroopRandomly();
 
         Invoke("BadCellSpawnTroop", Random.Range(5f, 15f));
+    }
+
+    public static void AddScore(int score)
+    {
+        Score += score;
     }
 }
 

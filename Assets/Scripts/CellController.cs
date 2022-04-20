@@ -8,7 +8,7 @@ public class CellController : MonoBehaviour, IAttackable
     [SerializeField]
     private float _initialHealth = 100f;
 
-    public float Health; // { get; private set; }
+    public float Health { get; private set; }
 
     [SerializeField]
     private Transform _healthFill;
@@ -40,6 +40,11 @@ public class CellController : MonoBehaviour, IAttackable
 
         if (Health <= 0)
         {
+            if (gameObject.CompareTag("BadCell"))
+            {
+                GameManager.AddScore(100);
+            }
+            
             OnCellDestroyed(this);
             Destroy(gameObject);
         }

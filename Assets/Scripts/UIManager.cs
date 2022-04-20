@@ -32,6 +32,18 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject _pausedPanel;
 
+    [SerializeField]
+    private GameObject _gameLostPanel;
+
+    [SerializeField]
+    private GameObject _gameWonPanel;
+
+    [SerializeField]
+    private Text _scoreText;
+
+    [SerializeField]
+    private Text _timeText;
+
     private Text _spawnOptionButtonText;
 
     private bool _isShowingPanel = false;
@@ -106,7 +118,6 @@ public class UIManager : MonoBehaviour
             cur += Time.deltaTime;
             float curX = Mathf.SmoothStep(start, target, cur / duration);
             rectTransform.anchoredPosition = new Vector2(curX, rectTransform.anchoredPosition.y);
-            Debug.Log("curX: " + curX);
             yield return null;
         }
         _isAnimatingPanel = false;
@@ -124,5 +135,48 @@ public class UIManager : MonoBehaviour
     public void GoToHome()
     {
         SceneManager.LoadScene("Home");
+    }
+
+    public void ShowGameLostPanel()
+    {
+        _inGamePanel.SetActive(false);
+        _gameLostPanel.SetActive(true);
+    }
+
+    public void SetScoreText(float score)
+    {
+        _scoreText.text = score.ToString("0");
+    }
+
+    public void ShowGameWonPanel()
+    {
+        _inGamePanel.SetActive(false);
+        _gameWonPanel.SetActive(true);
+    }
+    public void GoToNextLevel()
+    {
+        int nextLevel = SaveManager.CurrentLevel + 1;
+
+        if (nextLevel <= SaveManager.MaxLevel)
+        {
+            SaveManager.CurrentLevel = nextLevel;
+            SceneManager.LoadScene("Level" + nextLevel);
+        }
+        else
+        {
+            SceneManager.LoadScene("Home");
+        }
+    }
+
+    public void RetryGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void SetTimeText(float time)
+    {
+        float minutes = Mathf.Floor(time / 60);
+        float seconds = time % 60;
+        _timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 }
