@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +24,11 @@ public class GameManager : MonoBehaviour
 
     private bool _isGameOver;
 
+    [SerializeField]
+    private float _time;
+
+    private float _countdown;
+
     private void Start()
     {
         // work around for lagging when spawning the first troop
@@ -32,6 +36,7 @@ public class GameManager : MonoBehaviour
 
         Score = 0;
         _isGameOver = false;
+        _countdown = _time;
 
         _activeSpawnOptions = new List<SpawnOptionController>();
 
@@ -56,10 +61,20 @@ public class GameManager : MonoBehaviour
 
         if (!_isGameOver)
         {
+            _countdown -= Time.deltaTime;
+
+            if (_countdown <= 0)
+            {
+                _isGameOver = true;
+                _uiManager.ShowGameLostPanel();
+            } else {
+                _uiManager.SetTimeText(_countdown);
+            }
+
             if (_goodCellsGroup.Cells.Count == 0)
             {
                 _isGameOver = true;
-                _uiManager.ShowGameOverPanel();
+                _uiManager.ShowGameLostPanel();
             }
 
             if (_badCellsGroup.Cells.Count == 0)

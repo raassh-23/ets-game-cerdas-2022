@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -429, y: 259}
+  m_AnchoredPosition: {x: -560, y: 259}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.000000007450581, y: 1}
 --- !u!222 &7061420165776801275
@@ -67,18 +67,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: acfdbfed55eb8b44da9f1f22ac33916e, type: 3}
-    m_FontSize: 56
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 56
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 00000000
+  m_Text: 00:00
 --- !u!1 &6880043303800647961
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,7 +731,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: acfdbfed55eb8b44da9f1f22ac33916e, type: 3}
-    m_FontSize: 28
+    m_FontSize: 36
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -1998,7 +1998,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: acfdbfed55eb8b44da9f1f22ac33916e, type: 3}
-    m_FontSize: 24
+    m_FontSize: 28
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 1
@@ -2236,6 +2236,7 @@ MonoBehaviour:
   _gameLostPanel: {fileID: 8974810828886389172}
   _gameWonPanel: {fileID: 8974810826938240911}
   _scoreText: {fileID: 8974810828162312841}
+  _timeText: {fileID: 2169317313890572176}
 --- !u!1 &8974810828428786404
 GameObject:
   m_ObjectHideFlags: 0
@@ -2692,6 +2693,7 @@ MonoBehaviour:
   - prefab: {fileID: 6699951543658769842, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
     price: 125
     bgColor: {r: 0.7018868, g: 1, b: 0.9441038, a: 0}
+  _time: 300
 --- !u!1 &8974810828646323329
 GameObject:
   m_ObjectHideFlags: 0

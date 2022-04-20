@@ -41,6 +41,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text _scoreText;
 
+    [SerializeField]
+    private Text _timeText;
+
     private Text _spawnOptionButtonText;
 
     private bool _isShowingPanel = false;
@@ -134,7 +137,7 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Home");
     }
 
-    public void ShowGameOverPanel()
+    public void ShowGameLostPanel()
     {
         _inGamePanel.SetActive(false);
         _gameLostPanel.SetActive(true);
@@ -153,11 +156,13 @@ public class UIManager : MonoBehaviour
     public void GoToNextLevel()
     {
         int nextLevel = SaveManager.CurrentLevel + 1;
-        
+
         if (nextLevel <= SaveManager.MaxLevel)
         {
+            SaveManager.CurrentLevel = nextLevel;
             SceneManager.LoadScene("Level" + nextLevel);
-        } else
+        }
+        else
         {
             SceneManager.LoadScene("Home");
         }
@@ -166,5 +171,12 @@ public class UIManager : MonoBehaviour
     public void RetryGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void SetTimeText(float time)
+    {
+        float minutes = Mathf.Floor(time / 60);
+        float seconds = time % 60;
+        _timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 }

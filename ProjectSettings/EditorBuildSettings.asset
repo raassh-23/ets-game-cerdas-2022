@@ -18,6 +18,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Level2.unity
     guid: 825ad34b4537df8499816d0ed0a78fb4
   - enabled: 1
+    path: Assets/Scenes/Levels/Level3.unity
+    guid: e07b3581fc195eb4c961405479fc5472
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level4.unity
+    guid: 3c01d8a8a45fc6c469fff9a5aab204a5
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level5.unity
+    guid: 139463264c58fad4496845a48fa850b5
+  - enabled: 0
     path: Assets/Scenes/TrainTroop.unity
     guid: 34efc8bd0553c6045a21df30a2fc998a
   m_configObjects: {}
