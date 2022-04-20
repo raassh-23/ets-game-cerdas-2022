@@ -212,4 +212,12 @@ public class CellsGroupController : MonoBehaviour
             SpawnTroopRandomly();
         }
     }
+
+    public void ReturnAllTroopsToPool()
+    {
+        foreach (TroopController troop in Troops)
+        {
+            ReturnToPool(troop);
+        }
+    }
 }

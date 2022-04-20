@@ -152,7 +152,15 @@ public class UIManager : MonoBehaviour
     }
     public void GoToNextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        int nextLevel = SaveManager.CurrentLevel + 1;
+        
+        if (nextLevel <= SaveManager.MaxLevel)
+        {
+            SceneManager.LoadScene("Level" + nextLevel);
+        } else
+        {
+            SceneManager.LoadScene("Home");
+        }
     }
 
     public void RetryGame()

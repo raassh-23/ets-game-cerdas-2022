@@ -24,11 +24,12 @@ public class MenuManager : MonoBehaviour
             {
                 int level = i + 1;
                 _levels[i].GetComponent<Button>().onClick.AddListener(() => {
+                    SaveManager.CurrentLevel = level;
                     SceneManager.LoadScene("Level" + level);
                 });
                 _levels[i].GetComponent<Image>().sprite = _levelUnlocked;
                 _levels[i].GetComponentsInChildren<Text>()[1].text =
-                    SaveManager.GetLevelHighscore(i).ToString("0000");
+                    SaveManager.GetLevelHighscore(level).ToString("0000");
             }
             else
             {

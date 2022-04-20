@@ -53,11 +53,15 @@ public class GameManager : MonoBehaviour
 
         if (_goodCellsGroup.Cells.Count == 0)
         {
+            DestroyAllTroops();
             _uiManager.ShowGameOverPanel();
         }
 
         if (_badCellsGroup.Cells.Count == 0)
         {
+            DestroyAllTroops();
+            SaveManager.SetUnlockedLevel(SaveManager.CurrentLevel);
+            SaveManager.SetLevelHighscore(SaveManager.CurrentLevel, Score);
             _uiManager.SetScoreText(Score);
             _uiManager.ShowGameWonPanel();
         }
@@ -124,6 +128,12 @@ public class GameManager : MonoBehaviour
     public static void AddScore(int score)
     {
         Score += score;
+    }
+
+    public void DestroyAllTroops()
+    {
+        _goodCellsGroup.ReturnAllTroopsToPool();
+        _badCellsGroup.ReturnAllTroopsToPool();
     }
 }
 
