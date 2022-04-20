@@ -40,6 +40,11 @@ public class CellController : MonoBehaviour, IAttackable
 
         if (Health <= 0)
         {
+            if (gameObject.CompareTag("BadCell"))
+            {
+                GameManager.AddScore(500);
+            }
+            
             OnCellDestroyed(this);
             Destroy(gameObject);
         }

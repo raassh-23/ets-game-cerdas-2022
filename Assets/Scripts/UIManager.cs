@@ -32,6 +32,15 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject _pausedPanel;
 
+    [SerializeField]
+    private GameObject _gameLostPanel;
+
+    [SerializeField]
+    private GameObject _gameWonPanel;
+
+    [SerializeField]
+    private Text _scoreText;
+
     private Text _spawnOptionButtonText;
 
     private bool _isShowingPanel = false;
@@ -124,5 +133,31 @@ public class UIManager : MonoBehaviour
     public void GoToHome()
     {
         SceneManager.LoadScene("Home");
+    }
+
+    public void ShowGameOverPanel()
+    {
+        _inGamePanel.SetActive(false);
+        _gameLostPanel.SetActive(true);
+    }
+
+    public void SetScoreText(float score)
+    {
+        _scoreText.text = score.ToString("0");
+    }
+
+    public void ShowGameWonPanel()
+    {
+        _inGamePanel.SetActive(false);
+        _gameWonPanel.SetActive(true);
+    }
+    public void GoToNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void RetryGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
