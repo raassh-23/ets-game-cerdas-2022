@@ -134,6 +134,7 @@ public class UIManager : MonoBehaviour
 
     public void GoToHome()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Home");
     }
 
