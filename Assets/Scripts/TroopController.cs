@@ -61,6 +61,10 @@ public class TroopController : Agent, IAttackable
     [SerializeField]
     private bool _isDamaged = false;
 
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float _criticalChance = 0.2f;
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -128,12 +132,18 @@ public class TroopController : Agent, IAttackable
             GameObject target = NearestObject(_attackTargets);
             IAttackable attackTarget = target.GetComponent<IAttackable>();
 
-            attackTarget.TakeDamage(_damage);
+            float damage = _damage;
+            if (Random.value < _criticalChance)
+            {
+                damage *= Random.Range(1.5f, 2f);
+            }
+
+            attackTarget.TakeDamage(damage);
             _canAttack = false;
 
             if (target.CompareTag("GoodCell") || target.CompareTag("BadCell"))
             {
-                AddReward(5f * _existentialReward);
+                AddReward(10f * _existentialReward);
             }
 
             Debug.Log(gameObject.name + " has attacked " + target.name);
@@ -144,6 +154,7 @@ public class TroopController : Agent, IAttackable
         catch (System.Exception ex)
         {
             Debug.Log("Error: " + ex.Message);
+            Debug.Log(ex.StackTrace);
             yield break;
         }
 
@@ -287,24 +298,24 @@ public class TroopController : Agent, IAttackable
                 break;
         }
 
-        // if (_isNearEnemyCell)
-        // {
-        //     AddReward(2 * _existentialReward);
-        // }
+        if (_isNearEnemyCell)
+        {
+            AddReward(3 * _existentialReward);
+        }
 
-        // if (_isNearOwnCell || _isNearWall)
-        // {
-        //     AddReward(-1 * _existentialReward);
-        // }
+        if (_isNearOwnCell || _isNearWall)
+        {
+            AddReward(-2 * _existentialReward);
+        }
 
         if (_isNearWall)
         {
-            AddReward(-3 * _existentialReward);
+            AddReward(-5 * _existentialReward);
         }
 
         if (_isDamaged)
         {
-            AddReward(-2 * _existentialReward);
+            AddReward(-3 * _existentialReward);
             _isDamaged = false;
         }
 

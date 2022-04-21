@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
             _enemySpawnOptionsSpawnable.Add(i, false);
         }
 
-        Invoke("BadCellSpawnTroop", Random.Range(0f, 3f));
+        Invoke("BadCellSpawnTroop", Random.Range(0f, 2f));
     }
 
     private void Update()
@@ -192,16 +192,15 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        int troopIndex = spawnableTroopIndex[Random.Range(0, spawnableTroopIndex.Count)];
-
         if (Random.value < _enemySpawnChance)
         {
+            int troopIndex = spawnableTroopIndex[Random.Range(0, spawnableTroopIndex.Count)];
             _badCellsGroup.AddPoints(-_enemySpawnOptions[troopIndex].price);
             CellController cell = _badCellsGroup.Cells[Random.Range(0, _badCellsGroup.Cells.Count)];
             _badCellsGroup.SpawnTroopFromCell(troopIndex, cell);
         }
 
-        Invoke("BadCellSpawnTroop", Random.Range(3f, 6f));
+        Invoke("BadCellSpawnTroop", Random.Range(2f, 3f));
     }
 
     public static void AddScore(int score)

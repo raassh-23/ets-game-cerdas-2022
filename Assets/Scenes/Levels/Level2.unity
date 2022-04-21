@@ -408,11 +408,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6880043303800647958, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _points
-      value: 200
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6880043303800647958, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _addPoints
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6880043303800647958, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _troopsPrefab.Array.size
@@ -424,11 +424,11 @@ PrefabInstance:
       objectReference: {fileID: 6699951543658769842, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
     - target: {fileID: 8974810827076015560, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _points
-      value: 150
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 8974810827076015560, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _addPoints
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8974810827076015560, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _troopsPrefab.Array.size

@@ -31,6 +31,14 @@ PrefabInstance:
       propertyPath: _health
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 6680805863533082972, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
+      propertyPath: _initialHealth
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680805863533082972, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
+      propertyPath: _criticalChance
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6680805863533082974, guid: 0ab10cf557e678344a0327de7c1f9b28, type: 3}
       propertyPath: m_RootOrder
       value: 0

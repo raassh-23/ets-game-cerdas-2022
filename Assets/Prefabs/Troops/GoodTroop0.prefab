@@ -248,6 +248,7 @@ MonoBehaviour:
   _isNearWall: 0
   _isNearOwnCell: 0
   _isDamaged: 0
+  _criticalChance: 0.3
 --- !u!50 &6680805863533082973
 Rigidbody2D:
   serializedVersion: 4

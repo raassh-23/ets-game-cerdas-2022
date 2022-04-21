@@ -677,6 +677,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5451106558815213398, guid: 45af43e6a4d166e42bcb54b569a08f39, type: 3}
+      propertyPath: _troopsPrefab.Array.data[1]
+      value: 
+      objectReference: {fileID: 8556050927081784901, guid: 38bf1c57a0f9dfd4b9963800a586d1d5, type: 3}
+    - target: {fileID: 5451106558815213398, guid: 45af43e6a4d166e42bcb54b569a08f39, type: 3}
+      propertyPath: _troopsPrefab.Array.data[2]
+      value: 
+      objectReference: {fileID: 4645437553395010588, guid: b295ac7c9bdb4a145a03d5d43e956982, type: 3}
     - target: {fileID: 5451106559996425545, guid: 45af43e6a4d166e42bcb54b569a08f39, type: 3}
       propertyPath: m_Name
       value: Environment

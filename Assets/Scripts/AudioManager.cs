@@ -5,8 +5,6 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     private AudioSource _audioSource;
-    private GameObject[] other;
-    private bool NotFirst = false;
 
     public static AudioManager Instance { get; private set; }
 
