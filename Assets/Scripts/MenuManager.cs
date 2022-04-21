@@ -23,9 +23,9 @@ public class MenuManager : MonoBehaviour
             if (i <= SaveManager.GetUnlockedLevel())
             {
                 int level = i + 1;
-                _levels[i].GetComponent<Button>().onClick.AddListener(() => {
-                    SaveManager.CurrentLevel = level;
-                    SceneManager.LoadScene("Level" + level);
+                _levels[i].GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    GoToLevel(level);
                 });
                 _levels[i].GetComponent<Image>().sprite = _levelUnlocked;
                 _levels[i].GetComponentsInChildren<Text>()[1].text =
@@ -35,11 +35,21 @@ public class MenuManager : MonoBehaviour
             {
                 _levels[i].GetComponent<Button>().interactable = false;
                 _levels[i].GetComponent<Image>().sprite = _levelLocked;
-                
+
                 Text[] texts = _levels[i].GetComponentsInChildren<Text>();
                 texts[0].color = Color.white;
                 texts[1].text = "";
             }
         }
+
+        AudioManager.Instance.PlayMusic();
+    }
+
+    private void GoToLevel(int level)
+    {
+        SaveManager.CurrentLevel = level;
+        SceneManager.LoadScene("Level" + level);
+
+        AudioManager.Instance.PlayClickSFX();
     }
 }

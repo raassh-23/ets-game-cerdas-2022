@@ -76,6 +76,8 @@ public class UIManager : MonoBehaviour
             _spawnOptionButtonText.text = "S\nH\nO\nW";
             StartCoroutine(AnimateHorizontalSpawnOptionPanel(-300f, 0.5f));
         }
+
+        AudioManager.Instance.PlayClickSFX();
     }
 
     public void SetPointsText(float points)
@@ -130,18 +132,24 @@ public class UIManager : MonoBehaviour
         Time.timeScale = _isPaused ? 0 : 1;
         _inGamePanel.SetActive(!_isPaused);
         _pausedPanel.SetActive(_isPaused);
+
+        AudioManager.Instance.PlayClickSFX();
     }
 
     public void GoToHome()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("Home");
+
+        AudioManager.Instance.PlayClickSFX();
     }
 
     public void ShowGameLostPanel()
     {
         _inGamePanel.SetActive(false);
         _gameLostPanel.SetActive(true);
+
+        AudioManager.Instance.PlayClickSFX();
     }
 
     public void SetScoreText(float score)
@@ -167,11 +175,15 @@ public class UIManager : MonoBehaviour
         {
             SceneManager.LoadScene("Home");
         }
+
+        AudioManager.Instance.PlayClickSFX();
     }
 
     public void RetryGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        AudioManager.Instance.PlayClickSFX();
     }
 
     public void SetTimeText(float time)

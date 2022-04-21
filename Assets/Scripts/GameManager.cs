@@ -120,6 +120,8 @@ public class GameManager : MonoBehaviour
                 cell.StartBlinking();
                 cell.OnCellClicked += SpawnTroop;
             }
+
+            AudioManager.Instance.PlayClickSFX();
         }
     }
 
@@ -132,6 +134,8 @@ public class GameManager : MonoBehaviour
             cell.StopBlinking();
             cell.OnCellClicked -= SpawnTroop;
         }
+
+        AudioManager.Instance.PlayClickSFX();
     }
 
     private void SpawnTroop(CellController cell)

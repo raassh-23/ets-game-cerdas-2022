@@ -433,7 +433,7 @@ PrefabInstance:
     - target: {fileID: 8974810827076015560, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _troopsPrefab.Array.data[1]
       value: 
-      objectReference: {fileID: 4707997238904784081, guid: b295ac7c9bdb4a145a03d5d43e956982, type: 3}
+      objectReference: {fileID: 4645437553395010588, guid: b295ac7c9bdb4a145a03d5d43e956982, type: 3}
     - target: {fileID: 8974810828012970672, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: m_Camera
       value: 
@@ -457,7 +457,7 @@ PrefabInstance:
     - target: {fileID: 8974810828575129907, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _enemySpawnOptions.Array.data[1].prefab
       value: 
-      objectReference: {fileID: 4707997238904784081, guid: b295ac7c9bdb4a145a03d5d43e956982, type: 3}
+      objectReference: {fileID: 4645437553395010588, guid: b295ac7c9bdb4a145a03d5d43e956982, type: 3}
     - target: {fileID: 8974810828760653618, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: m_Name
       value: Level
