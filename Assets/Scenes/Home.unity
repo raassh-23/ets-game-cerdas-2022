@@ -672,6 +672,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _clickSFX: {fileID: 8300000, guid: 58b213ced1d651a478f8e11a314508dc, type: 3}
+  _winSFX: {fileID: 8300000, guid: 8e101ab6c0e574c4788cfc97d0eb5c10, type: 3}
+  _loseSFX: {fileID: 8300000, guid: 2070b203f8c824644a0ca4d36fa56bd9, type: 3}
+  _deathSFX: {fileID: 8300000, guid: 931d0384453948245b5005ca26a47316, type: 3}
 --- !u!1 &911248729
 GameObject:
   m_ObjectHideFlags: 0

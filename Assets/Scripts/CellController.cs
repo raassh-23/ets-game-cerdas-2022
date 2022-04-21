@@ -44,6 +44,8 @@ public class CellController : MonoBehaviour, IAttackable
             {
                 GameManager.AddScore(100);
             }
+
+            AudioManager.Instance.PlayDeathSFX();
             
             OnCellDestroyed(this);
             Destroy(gameObject);

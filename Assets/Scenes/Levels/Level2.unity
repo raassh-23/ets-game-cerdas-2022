@@ -412,7 +412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6880043303800647958, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _addPoints
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6880043303800647958, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _troopsPrefab.Array.size
@@ -425,6 +425,10 @@ PrefabInstance:
     - target: {fileID: 8974810827076015560, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _points
       value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974810827076015560, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
+      propertyPath: _addPoints
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8974810827076015560, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _troopsPrefab.Array.size

@@ -13,6 +13,15 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioClip _clickSFX;
     
+    [SerializeField]
+    private AudioClip _winSFX;
+    
+    [SerializeField]
+    private AudioClip _loseSFX;
+
+    [SerializeField]
+    private AudioClip _deathSFX;
+    
     void Awake()
     {
         if (Instance == null)
@@ -43,5 +52,20 @@ public class AudioManager : MonoBehaviour
     public void PlayClickSFX()
     {
         _audioSource.PlayOneShot(_clickSFX);
+    }
+
+    public void PlayWinSFX()
+    {
+        _audioSource.PlayOneShot(_winSFX);
+    }
+
+    public void PlayLoseSFX()
+    {
+        _audioSource.PlayOneShot(_loseSFX);
+    }
+
+    public void PlayDeathSFX()
+    {
+        _audioSource.PlayOneShot(_deathSFX);
     }
 }

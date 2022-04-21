@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,6 +41,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        if (AudioManager.Instance == null) {
+            SceneManager.LoadScene("Home");
+        }
+
         // work around for lagging when spawning the first troop
         Destroy(GetComponentInChildren<TroopController>().gameObject);
 
@@ -87,6 +92,7 @@ public class GameManager : MonoBehaviour
             {
                 _isGameOver = true;
                 _uiManager.ShowGameLostPanel();
+                AudioManager.Instance.PlayLoseSFX();
             } else {
                 _uiManager.SetTimeText(_countdown);
             }
@@ -95,6 +101,7 @@ public class GameManager : MonoBehaviour
             {
                 _isGameOver = true;
                 _uiManager.ShowGameLostPanel();
+                AudioManager.Instance.PlayLoseSFX();
             }
 
             if (_badCellsGroup.Cells.Count == 0)
@@ -104,6 +111,7 @@ public class GameManager : MonoBehaviour
                 SaveManager.SetLevelHighscore(SaveManager.CurrentLevel, Score);
                 _uiManager.SetScoreText(Score);
                 _uiManager.ShowGameWonPanel();
+                AudioManager.Instance.PlayWinSFX();
             }
         }
     }

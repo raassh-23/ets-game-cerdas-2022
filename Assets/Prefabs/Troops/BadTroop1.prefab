@@ -97,7 +97,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4183243555570269511, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
       propertyPath: _isNearOwnCell
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7292894818458180482, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
       propertyPath: m_TagString
@@ -110,7 +110,7 @@ PrefabInstance:
     - target: {fileID: 7645831526034179770, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 7d3f80460fb48a44abcd2ba9994121d0, type: 3}
+      objectReference: {fileID: 5022602860645237092, guid: e761f1b8178fbad4b834357b44d1b392, type: 3}
     - target: {fileID: 7645831526034179770, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
       propertyPath: m_BehaviorName
       value: Troop2
