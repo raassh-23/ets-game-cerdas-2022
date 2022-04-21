@@ -407,6 +407,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6880043303800647958, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
+      propertyPath: _points
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6880043303800647958, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
+      propertyPath: _addPoints
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6880043303800647958, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _troopsPrefab.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -415,13 +423,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6699951543658769842, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
     - target: {fileID: 8974810827076015560, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
+      propertyPath: _points
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974810827076015560, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _troopsPrefab.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8974810827076015560, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _troopsPrefab.Array.data[1]
       value: 
-      objectReference: {fileID: 4645437553395010588, guid: b295ac7c9bdb4a145a03d5d43e956982, type: 3}
+      objectReference: {fileID: 4707997238904784081, guid: b295ac7c9bdb4a145a03d5d43e956982, type: 3}
     - target: {fileID: 8974810828012970672, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: m_Camera
       value: 
@@ -430,26 +442,22 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8974810828444271070, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -300.00003
+      objectReference: {fileID: 0}
     - target: {fileID: 8974810828575129907, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: _spawnOptions.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8974810828575129907, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
-      propertyPath: _spawnOptions.Array.data[1].price
-      value: 125
+      propertyPath: _enemySpawnOptions.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8974810828575129907, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
-      propertyPath: _spawnOptions.Array.data[1].prefab
+      propertyPath: _enemySpawnOptions.Array.data[1].prefab
       value: 
-      objectReference: {fileID: 6699951543658769842, guid: c28f68a6ac978b0489507a82ceb5f3ca, type: 3}
-    - target: {fileID: 8974810828575129907, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
-      propertyPath: _spawnOptions.Array.data[1].bgColor.b
-      value: 0.94509804
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974810828575129907, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
-      propertyPath: _spawnOptions.Array.data[1].bgColor.r
-      value: 0.7019608
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4707997238904784081, guid: b295ac7c9bdb4a145a03d5d43e956982, type: 3}
     - target: {fileID: 8974810828760653618, guid: 7a8d54ea79b3d33449587e7cb436cebb, type: 3}
       propertyPath: m_Name
       value: Level

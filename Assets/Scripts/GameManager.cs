@@ -20,6 +20,15 @@ public class GameManager : MonoBehaviour
 
     private SpawnOptionConfig _selectedSpawnOption;
 
+    [SerializeField]
+    private SpawnOptionConfig[] _enemySpawnOptions;
+
+    private Dictionary<int, bool> _enemySpawnOptionsSpawnable;
+
+    [SerializeField]
+    [Range(0, 1)]
+    private float _enemySpawnChance = 0.5f;
+
     public static float Score { get; private set; }
 
     private bool _isGameOver;
@@ -47,7 +56,13 @@ public class GameManager : MonoBehaviour
             _activeSpawnOptions.Add(spawnOptionController);
         }
 
-        Invoke("BadCellSpawnTroop", Random.Range(0f, 5f));
+        _enemySpawnOptionsSpawnable = new Dictionary<int, bool>();
+        for (var i = 0; i < _enemySpawnOptions.Length; i++)
+        {
+            _enemySpawnOptionsSpawnable.Add(i, false);
+        }
+
+        Invoke("BadCellSpawnTroop", Random.Range(0f, 3f));
     }
 
     private void Update()
@@ -57,6 +72,11 @@ public class GameManager : MonoBehaviour
         foreach (var spawnOption in _activeSpawnOptions)
         {
             spawnOption.SetSpawnable(_goodCellsGroup.Points >= spawnOption.GetPrice());
+        }
+
+        for (var i = 0; i < _enemySpawnOptions.Length; i++)
+        {
+            _enemySpawnOptionsSpawnable[i] = _badCellsGroup.Points >= _enemySpawnOptions[i].price;
         }
 
         if (!_isGameOver)
@@ -141,9 +161,35 @@ public class GameManager : MonoBehaviour
 
     private void BadCellSpawnTroop()
     {
-        _badCellsGroup.SpawnTroopRandomly();
+        if (_isGameOver)
+        {
+            return;
+        }
 
-        Invoke("BadCellSpawnTroop", Random.Range(5f, 15f));
+        List<int> spawnableTroopIndex = new List<int>();
+
+        foreach (var item in _enemySpawnOptionsSpawnable)
+        {
+            if (item.Value) {
+                spawnableTroopIndex.Add(item.Key);
+            }
+        }
+
+        if (spawnableTroopIndex.Count == 0)
+        {
+            return;
+        }
+
+        int troopIndex = spawnableTroopIndex[Random.Range(0, spawnableTroopIndex.Count)];
+
+        if (Random.value < _enemySpawnChance)
+        {
+            _badCellsGroup.AddPoints(-_enemySpawnOptions[troopIndex].price);
+            CellController cell = _badCellsGroup.Cells[Random.Range(0, _badCellsGroup.Cells.Count)];
+            _badCellsGroup.SpawnTroopFromCell(troopIndex, cell);
+        }
+
+        Invoke("BadCellSpawnTroop", Random.Range(3f, 6f));
     }
 
     public static void AddScore(int score)

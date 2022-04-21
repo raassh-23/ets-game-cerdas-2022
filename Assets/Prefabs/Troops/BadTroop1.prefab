@@ -95,6 +95,10 @@ PrefabInstance:
       propertyPath: _isGoodTroop
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4183243555570269511, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
+      propertyPath: _isNearOwnCell
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7292894818458180482, guid: 6e343f31ad7b54f4aa8e56b38bf77c23, type: 3}
       propertyPath: m_TagString
       value: BadTroop

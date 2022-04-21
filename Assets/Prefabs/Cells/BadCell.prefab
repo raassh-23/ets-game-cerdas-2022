@@ -79,5 +79,9 @@ PrefabInstance:
       propertyPath: _isGoodCell
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5131776691839583298, guid: 1d96458b247ee3b4f842b0f799bf4031, type: 3}
+      propertyPath: _initialHealth
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d96458b247ee3b4f842b0f799bf4031, type: 3}

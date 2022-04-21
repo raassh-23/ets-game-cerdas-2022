@@ -299,12 +299,12 @@ public class TroopController : Agent, IAttackable
 
         if (_isNearWall)
         {
-            AddReward(-2 * _existentialReward);
+            AddReward(-3 * _existentialReward);
         }
 
         if (_isDamaged)
         {
-            AddReward(-1 * _existentialReward);
+            AddReward(-2 * _existentialReward);
             _isDamaged = false;
         }
 
