@@ -107,6 +107,8 @@ public class GameManager : MonoBehaviour
             if (_badCellsGroup.Cells.Count == 0)
             {
                 _isGameOver = true;
+                Score += _countdown + _goodCellsGroup.Points;
+
                 SaveManager.SetUnlockedLevel(SaveManager.CurrentLevel);
                 SaveManager.SetLevelHighscore(SaveManager.CurrentLevel, Score);
                 _uiManager.SetScoreText(Score);
@@ -178,6 +180,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        Debug.Log("Spawning bad troop");
+
         List<int> spawnableTroopIndex = new List<int>();
 
         foreach (var item in _enemySpawnOptionsSpawnable)
@@ -195,6 +199,8 @@ public class GameManager : MonoBehaviour
         if (Random.value < _enemySpawnChance)
         {
             int troopIndex = spawnableTroopIndex[Random.Range(0, spawnableTroopIndex.Count)];
+            
+            Debug.Log("Spawning " + _enemySpawnOptions[troopIndex].prefab.name);
             _badCellsGroup.AddPoints(-_enemySpawnOptions[troopIndex].price);
             CellController cell = _badCellsGroup.Cells[Random.Range(0, _badCellsGroup.Cells.Count)];
             _badCellsGroup.SpawnTroopFromCell(troopIndex, cell);

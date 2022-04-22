@@ -274,14 +274,14 @@ public class TroopController : Agent, IAttackable
         }
     }
 
-    public override void CollectObservations(VectorSensor sensor)
-    {
-        sensor.AddObservation(Health);
-        sensor.AddObservation(_speed);
-        sensor.AddObservation(_attackCooldown);
-        sensor.AddObservation(_damage);
-        sensor.AddObservation(_attackTargets.Count);
-    }
+    // public override void CollectObservations(VectorSensor sensor)
+    // {
+    //     sensor.AddObservation(Health);
+    //     sensor.AddObservation(_speed);
+    //     sensor.AddObservation(_attackCooldown);
+    //     sensor.AddObservation(_damage);
+    //     sensor.AddObservation(_attackTargets.Count);
+    // }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
